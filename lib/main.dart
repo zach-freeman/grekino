@@ -5,14 +5,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = GreatMovieDatabase();
   List<GreatMovies> allItems = await database.moviesForVolume(1);
-  runApp(MyApp(greatMovies: allItems));
+  runApp(GreatMovieApp(greatMovies: allItems));
 }
 
-class MyApp extends StatelessWidget {
+class GreatMovieApp extends StatelessWidget {
   final List<GreatMovies> greatMovies;
-  const MyApp({super.key, required this.greatMovies});
+  const GreatMovieApp({super.key, required this.greatMovies});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     const title = 'Great Movies';
