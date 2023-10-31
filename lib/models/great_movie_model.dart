@@ -30,6 +30,12 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  Future<List<GreatMovies>> moviesForVolume(int volume) {
+    return (select(greatMovieModel)
+          ..where((movie) => movie.volume.equals(volume)))
+        .get();
+  }
 }
 
 LazyDatabase _openConnection() {

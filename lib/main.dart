@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/helpers/sqlite_helper.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
 
-final SQLiteHelper sqLiteHelper = SQLiteHelper();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = GreatMovieDatabase();
-  List<GreatMovies> allItems =
-      await database.select(database.greatMovieModel).get();
+  List<GreatMovies> allItems = await database.moviesForVolume(1);
   runApp(MyApp(greatMovies: allItems));
 }
 
