@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:drift/native.dart';
-import 'package:flutter/foundation.dart' show immutable;
 import 'package:drift/drift.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart' as p;
