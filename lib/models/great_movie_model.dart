@@ -1,42 +1,53 @@
+import 'dart:io';
+
+import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:drift/drift.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+part 'great_movie_model.g.dart';
 
-@immutable
-class GreateMovieModel {
-  final String id;
-  final String name;
-  final String director;
-  final int year;
-  final int volume;
-  final bool isCriterion;
-  final bool isWatched;
-  final String watchedDate;
-  final String userStarRating;
-  final String userNotes;
+@DataClassName('GreatMovies')
+class GreatMovieModel extends Table {
+  @override
+  String get tableName => "great_movies";
+  TextColumn get id => text().named("Id")();
+  TextColumn get name => text().named("Name")();
+  TextColumn get director => text().named("Director")();
+  IntColumn get volume => integer().named("Volume")();
+  IntColumn get year => integer().named("Year")();
+  TextColumn get genres => text().named("Genres")();
+  BoolColumn get isCriterion => boolean().named("IsCriterion")();
+  BoolColumn get isWatched => boolean().named("IsWatched")();
+  TextColumn get dateWatched => text().named("DateWatched")();
+  RealColumn get userStarRating => real().named("UserStarRating")();
+  TextColumn get userReview => text().named("UserReview")();
+}
 
-  const GreateMovieModel({
-    required this.id,
-    required this.name,
-    required this.director,
-    required this.year,
-    required this.volume,
-     required this.isCriterion,
-    required this.isWatched,
-    required this.watchedDate,
-    required this.userStarRating,
-    required this. userNotes
+@DriftDatabase(tables: [GreatMovieModel])
+class GreatMovieDatabase extends _$GreatMovieDatabase {
+  GreatMovieDatabase() : super(_openConnection());
+
+  @override
+  int get schemaVersion => 1;
+}
+
+LazyDatabase _openConnection() {
+  return LazyDatabase(() async {
+    // put the database file, called db.sqlite here, into the documents folder
+    // for your app.
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'GreatMoviesSQLite.db3'));
+
+    if (!await file.exists()) {
+      // Extract the pre-populated database file from assets
+      final blob = await rootBundle.load('assets/GreatMoviesSQLite.db3');
+      final buffer = blob.buffer;
+      await file.writeAsBytes(
+          buffer.asUint8List(blob.offsetInBytes, blob.lengthInBytes));
+    }
+
+    return NativeDatabase.createInBackground(file);
   });
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "name": name,
-      "director": director,
-      "year": year,
-      "volume": volume,
-      "isCriterion": isCriterion,
-      "isWatched": isWatched,
-      "watchedDate": watchedDate,
-      "userStarRating": userStarRating,
-      "userNotes": userNotes
-    };
-  }
 }
