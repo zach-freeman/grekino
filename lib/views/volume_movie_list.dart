@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_great_movies/views/movie_list_item.dart';
 import '../models/great_movie_model.dart';
 
 Future<List<GreatMovies>> fetchMovies(int volumeNumber) async {
@@ -34,12 +35,22 @@ class VolumeMovieList extends StatelessWidget {
             home: Scaffold(
               appBar: AppBar(title: Text(title)),
               body: ListView.builder(
+                  padding: const EdgeInsets.all(8),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     final greatMovie = snapshot.data[index];
                     return ListTile(
                       title: Text(greatMovie.name),
+                      trailing: const Icon(Icons.earbuds_battery_sharp),
                       subtitle: Text(greatMovie.director),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MovieListItem(
+                                    pageTitle: title,
+                                    itemTitle: greatMovie.name)));
+                      },
                     );
                   }),
             ),
