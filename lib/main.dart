@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
-import 'package:flutter_great_movies/views/VolumeOneList.dart';
+import 'package:flutter_great_movies/views/volume_one_list.dart';
+import 'package:flutter_great_movies/views/volume_two_list.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,12 +28,12 @@ class GreatMovieApp extends StatelessWidget {
                 Tab(icon: Icon(Icons.filter_3)),
               ],
             ),
-            title: const Text('Tabs Demo'),
+            title: const Text('Great Movies'),
           ),
           body: const TabBarView(
             children: [
               VolumeOneList(),
-              Icon(Icons.directions_transit),
+              VolumeTwoList(),
               Icon(Icons.directions_bike),
             ],
           ),
@@ -40,6 +41,4 @@ class GreatMovieApp extends StatelessWidget {
       ),
     );
   }
-
-
 }
