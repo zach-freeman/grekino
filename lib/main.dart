@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:flutter_great_movies/views/VolumeOneList.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,25 +15,31 @@ class GreatMovieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'Great Movies';
     return MaterialApp(
-      title: title,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
-      home: Scaffold(
-        appBar: AppBar(title: const Text(title)),
-        body: ListView.builder(
-            itemCount: greatMovies.length,
-            itemBuilder: (context, index) {
-              final greatMovie = greatMovies[index];
-              return ListTile(
-                title: Text(greatMovie.name),
-                subtitle: Text(greatMovie.director),
-              );
-            }),
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: const TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.filter_1)),
+                Tab(icon: Icon(Icons.filter_2)),
+                Tab(icon: Icon(Icons.filter_3)),
+              ],
+            ),
+            title: const Text('Tabs Demo'),
+          ),
+          body: const TabBarView(
+            children: [
+              VolumeOneList(),
+              Icon(Icons.directions_transit),
+              Icon(Icons.directions_bike),
+            ],
+          ),
+        ),
       ),
     );
   }
+
+
 }
