@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:flutter_great_movies/views/volume_movie_list.dart';
 import 'package:flutter_great_movies/views/volume_one_list.dart';
 import 'package:flutter_great_movies/views/volume_two_list.dart';
 
@@ -32,9 +33,9 @@ class GreatMovieApp extends StatelessWidget {
           ),
           body: const TabBarView(
             children: [
-              VolumeOneList(),
-              VolumeTwoList(),
-              Icon(Icons.directions_bike),
+              VolumeMovieList(volume: 1),
+              VolumeMovieList(volume: 2),
+              VolumeMovieList(volume: 3),
             ],
           ),
         ),
