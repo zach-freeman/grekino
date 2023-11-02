@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_great_movies/models/great_movie_model.dart';
+
+Future updateMovie(String id) async {
+  final database = GreatMovieDatabase();
+  return await database.updateMovie(id);
+}
 
 class MovieListItem extends StatelessWidget {
   final String pageTitle;
-  final String itemTitle;
+  final GreatMovies greatMovie;
 
   const MovieListItem(
-      {super.key, required this.pageTitle, required this.itemTitle});
+      {super.key, required this.pageTitle, required this.greatMovie});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +21,16 @@ class MovieListItem extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text(itemTitle),
+          Text(greatMovie.name),
+          Text(greatMovie.director),
+          Text(greatMovie.year.toString()),
+          const Spacer(),
           Center(
             child: OutlinedButton(
               onPressed: () {
-                Navigator.pop(context);
+                updateMovie(greatMovie.id);
               },
-              child: const Text('Go back!'),
+              child: const Text('I have watched this movie!'),
             ),
           ),
         ],

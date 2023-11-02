@@ -41,15 +41,15 @@ class VolumeMovieList extends StatelessWidget {
                     final greatMovie = snapshot.data[index];
                     return ListTile(
                       title: Text(greatMovie.name),
-                      trailing: const Icon(Icons.earbuds_battery_sharp),
+                      trailing: const Icon(Icons.visibility),
+                      iconColor: greatMovie.isWatched ? Colors.blue : Colors.grey,
                       subtitle: Text(greatMovie.director),
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MovieListItem(
-                                    pageTitle: title,
-                                    itemTitle: greatMovie.name)));
+                                    pageTitle: title, greatMovie: greatMovie)));
                       },
                     );
                   }),

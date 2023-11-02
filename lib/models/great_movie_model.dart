@@ -36,6 +36,11 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
           ..where((movie) => movie.volume.equals(volume)))
         .get();
   }
+
+  Future updateMovie(String id) {
+    return (update(greatMovieModel)..where((movie) => movie.id.equals(id)))
+        .write(const GreatMovieModelCompanion(isWatched: Value(true)));
+  }
 }
 
 LazyDatabase _openConnection() {
