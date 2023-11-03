@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:provider/provider.dart';
 
 Future updateMovie(String id) async {
   final database = GreatMovieDatabase();
@@ -12,6 +13,11 @@ class MovieListItem extends StatelessWidget {
 
   const MovieListItem(
       {super.key, required this.pageTitle, required this.greatMovie});
+
+  Future updateMovie(BuildContext context, String id) async {
+    var database = Provider.of<GreatMovieDatabase>(context, listen: false);
+    return await database.updateMovie(id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,7 @@ class MovieListItem extends StatelessWidget {
           Center(
             child: OutlinedButton(
               onPressed: () {
-                updateMovie(greatMovie.id);
+                updateMovie(context, greatMovie.id);
               },
               child: const Text('I have watched this movie!'),
             ),
