@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
 import 'package:provider/provider.dart';
 
-class MovieAddView extends StatelessWidget {
+class MovieAddView extends StatefulWidget {
   final GreatMovies greatMovie;
 
-  MovieAddView({super.key, required this.greatMovie});
+  const MovieAddView({super.key, required this.greatMovie});
 
+  @override
+  State<MovieAddView> createState() => _MovieAddViewState();
+}
+
+class _MovieAddViewState extends State<MovieAddView> {
   // #docregion styles
   final nameTextStyle = const TextStyle(
     color: Colors.black,
@@ -43,8 +48,8 @@ class MovieAddView extends StatelessWidget {
     fontSize: 16,
     height: 2,
   );
-  // #enddocregion styles
 
+  // #enddocregion styles
   Future updateMovie(BuildContext context, String id) async {
     var database = Provider.of<GreatMovieDatabase>(context, listen: false);
     return await database.updateMovie(id);
@@ -67,8 +72,8 @@ class MovieAddView extends StatelessWidget {
       ),
       body: Center(
           child: Column(children: [
-        movieInfo(greatMovie),
-        dateWatched(),
+        movieInfo(widget.greatMovie),
+        dateWatched(context),
         const Divider(),
         rated(),
         const Divider(),
@@ -94,7 +99,7 @@ class MovieAddView extends StatelessWidget {
     );
   }
 
-  Widget dateWatched() {
+  Widget dateWatched(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
       child: ColoredBox(
@@ -105,10 +110,20 @@ class MovieAddView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Date", style: entryTypeTextStyle),
-                  Text("Tuesday, November 7, 2023", style: valueTextStyle)
+                  datePicker(context)
                 ],
               ))),
     );
+  }
+
+  Widget datePicker(BuildContext context) {
+    return TextButton(
+        child: Text("Tuesday, November 17, 2023", style: valueTextStyle),
+        onPressed: () => showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2024)));
   }
 
   // #docregion ratings, stars
@@ -122,8 +137,8 @@ class MovieAddView extends StatelessWidget {
       const Icon(Icons.star, color: Colors.black),
     ],
   );
-  // #enddocregion stars
 
+  // #enddocregion stars
   Widget rated() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
