@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MovieAddView extends StatefulWidget {
@@ -12,6 +13,8 @@ class MovieAddView extends StatefulWidget {
 }
 
 class _MovieAddViewState extends State<MovieAddView> {
+  DateTime selectedDate = DateTime.now();
+
   // #docregion styles
   final nameTextStyle = const TextStyle(
     color: Colors.black,
@@ -118,12 +121,21 @@ class _MovieAddViewState extends State<MovieAddView> {
 
   Widget datePicker(BuildContext context) {
     return TextButton(
-        child: Text("Tuesday, November 17, 2023", style: valueTextStyle),
-        onPressed: () => showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2024)));
+        child: Text(DateFormat('EEEE, MMMM d, yyyy').format(selectedDate), style: valueTextStyle),
+        onPressed: () => _selectDate(context));
+  }
+
+  _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2024));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
 
   // #docregion ratings, stars
