@@ -37,9 +37,14 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
         .get();
   }
 
-  Future updateMovie(String id) {
+  Future updateMovie(
+      String id, String dateWatched, double starRating, String review) {
     return (update(greatMovieModel)..where((movie) => movie.id.equals(id)))
-        .write(const GreatMovieModelCompanion(isWatched: Value(true)));
+        .write(GreatMovieModelCompanion(
+            isWatched: const Value(true),
+            dateWatched: Value(dateWatched),
+            userStarRating: Value(starRating),
+            userReview: Value(review)));
   }
 }
 

@@ -11,11 +11,6 @@ class MovieListItem extends StatelessWidget {
   const MovieListItem(
       {super.key, required this.pageTitle, required this.greatMovie});
 
-  Future updateMovie(BuildContext context, String id) async {
-    var database = Provider.of<GreatMovieDatabase>(context, listen: false);
-    return await database.updateMovie(id);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

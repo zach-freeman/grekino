@@ -16,10 +16,18 @@ class MovieAddView extends StatefulWidget {
 class _MovieAddViewState extends State<MovieAddView> {
   DateTime selectedDate = DateTime.now();
   double selectedRating = 0.0;
+  final TextEditingController reviewEditController = TextEditingController();
   static const double outerHorizontalPadding = 0.0;
   static const double innerHorizontalPadding = 25.0;
 
   // #docregion styles
+  final cancelTextStyle = const TextStyle(
+    color: Colors.grey,
+    fontWeight: FontWeight.normal,
+    fontFamily: 'Roboto',
+    fontSize: 14,
+  );
+
   final nameTextStyle = const TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.w800,
@@ -57,9 +65,23 @@ class _MovieAddViewState extends State<MovieAddView> {
   );
   // #enddocregion styles
 
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.greatMovie.dateWatched.contains('1990-07-07')) {
+      DateTime dateWatched =
+          DateFormat("yyyy-MM-dd").parse(widget.greatMovie.dateWatched);
+      selectedDate = dateWatched;
+    }
+    selectedRating = widget.greatMovie.userStarRating;
+    reviewEditController.text = widget.greatMovie.userReview;
+  }
+
   Future updateMovie(BuildContext context, String id) async {
     var database = Provider.of<GreatMovieDatabase>(context, listen: false);
-    return await database.updateMovie(id);
+    var selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
+    return await database.updateMovie(
+        id, selectedDateString, selectedRating, reviewEditController.text);
   }
 
   @override
@@ -72,7 +94,7 @@ class _MovieAddViewState extends State<MovieAddView> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("Cancel"),
+            child: Text("Cancel", style: cancelTextStyle),
           ),
         ),
         leadingWidth: 100,
@@ -81,7 +103,12 @@ class _MovieAddViewState extends State<MovieAddView> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 25),
-            child: TextButton(onPressed: () {}, child: const Text("Save")),
+            child: TextButton(
+                onPressed: () {
+                  updateMovie(context, widget.greatMovie.id);
+                  Navigator.pop(context);
+                },
+                child: const Text("Save")),
           )
         ],
       ),
@@ -106,6 +133,8 @@ class _MovieAddViewState extends State<MovieAddView> {
               padding: const EdgeInsets.symmetric(
                   horizontal: innerHorizontalPadding, vertical: 25),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
                 children: [
                   Text(greatMovie.name, style: nameTextStyle),
                   const SizedBox(width: 10),
@@ -259,19 +288,21 @@ class _MovieAddViewState extends State<MovieAddView> {
   }
 
   Widget addReview() {
-    return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: outerHorizontalPadding),
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: outerHorizontalPadding),
         child: ColoredBox(
             color: Colors.white,
             child: Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     horizontal: innerHorizontalPadding, vertical: 10),
                 child: Column(
                   children: [
                     TextField(
+                      controller: reviewEditController,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
-                      decoration: InputDecoration(hintText: 'Add Review...'),
+                      decoration:
+                          const InputDecoration(hintText: 'Add Review...'),
                     ),
                   ],
                 ))));
