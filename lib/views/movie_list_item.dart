@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
 import 'package:flutter_great_movies/views/movie_add_view.dart';
-import 'package:provider/provider.dart';
 
 class MovieListItem extends StatelessWidget {
   final String pageTitle;

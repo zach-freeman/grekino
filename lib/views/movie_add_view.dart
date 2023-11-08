@@ -1,8 +1,13 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:flutter_great_movies/views/movie_add_review_view.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+typedef StringCallback = void Function(String review);
 
 class MovieAddView extends StatefulWidget {
   final GreatMovies greatMovie;
@@ -16,7 +21,7 @@ class MovieAddView extends StatefulWidget {
 class _MovieAddViewState extends State<MovieAddView> {
   DateTime selectedDate = DateTime.now();
   double selectedRating = 0.0;
-  final TextEditingController reviewEditController = TextEditingController();
+  String userReview = "Add review...";
   static const double outerHorizontalPadding = 0.0;
   static const double innerHorizontalPadding = 25.0;
 
@@ -74,14 +79,16 @@ class _MovieAddViewState extends State<MovieAddView> {
       selectedDate = dateWatched;
     }
     selectedRating = widget.greatMovie.userStarRating;
-    reviewEditController.text = widget.greatMovie.userReview;
+    userReview = widget.greatMovie.userReview.isNotEmpty
+        ? widget.greatMovie.userReview
+        : "Add Review...";
   }
 
   Future updateMovie(BuildContext context, String id) async {
     var database = Provider.of<GreatMovieDatabase>(context, listen: false);
     var selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
     return await database.updateMovie(
-        id, selectedDateString, selectedRating, reviewEditController.text);
+        id, selectedDateString, selectedRating, userReview);
   }
 
   @override
@@ -297,14 +304,23 @@ class _MovieAddViewState extends State<MovieAddView> {
                     horizontal: innerHorizontalPadding, vertical: 10),
                 child: Column(
                   children: [
-                    TextField(
-                      controller: reviewEditController,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      decoration:
-                          const InputDecoration(hintText: 'Add Review...'),
-                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(CupertinoPageRoute(
+                              fullscreenDialog: true,
+                              builder: (context) => MovieAddReviewView(
+                                      onDoneTapped: (String review) {
+                                    _setReview(review);
+                                  })));
+                        },
+                        child: Text(userReview, style: entryTypeTextStyle)),
                   ],
                 ))));
+  }
+
+  _setReview(String review) {
+    setState(() {
+      userReview = review;
+    });
   }
 }
