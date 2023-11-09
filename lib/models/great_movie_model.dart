@@ -50,7 +50,7 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
+    // put the database file into the documents folder
     // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'GreatMoviesSQLite.db3'));

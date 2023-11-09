@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
@@ -96,7 +94,7 @@ class _MovieAddViewState extends State<MovieAddView> {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.only(left: 5),
+          padding: const EdgeInsets.only(left: 2),
           child: TextButton(
             onPressed: () {
               Navigator.pop(context);
@@ -304,16 +302,23 @@ class _MovieAddViewState extends State<MovieAddView> {
                     horizontal: innerHorizontalPadding, vertical: 10),
                 child: Column(
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                              fullscreenDialog: true,
-                              builder: (context) => MovieAddReviewView(
-                                      onDoneTapped: (String review) {
-                                    _setReview(review);
-                                  })));
-                        },
-                        child: Text(userReview, style: entryTypeTextStyle)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (context) => MovieAddReviewView(
+                                          onDoneTapped: (String review) {
+                                        _setReview(review);
+                                      })));
+                            },
+                            child: Text(userReview,
+                                textAlign: TextAlign.left,
+                                style: entryTypeTextStyle)),
+                      ],
+                    ),
                   ],
                 ))));
   }
