@@ -23,7 +23,7 @@ class ApiService {
     }
   }
 
-  Future<TmdbConfiguration?> getTmdbConfiguration(String imdbId) async {
+  Future<TmdbConfiguration?> getTmdbConfiguration() async {
     try {
       var url = Uri.parse(
           "${ApiConstants.baseUrl}${ApiConstants.configurationEndpoint}?api_key=$tmdbApiKey");
