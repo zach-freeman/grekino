@@ -17,6 +17,7 @@ class GreatMovieModel extends Table {
   IntColumn get volume => integer().named("Volume")();
   IntColumn get year => integer().named("Year")();
   TextColumn get genres => text().named("Genres")();
+  TextColumn get imdbId => text().named("ImdbId")();
   BoolColumn get isCriterion => boolean().named("IsCriterion")();
   BoolColumn get isWatched => boolean().named("IsWatched")();
   TextColumn get dateWatched => text().named("DateWatched")();

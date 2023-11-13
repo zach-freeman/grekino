@@ -14,7 +14,7 @@ class _MovieAddReviewViewState extends State<MovieAddReviewView> {
   final TextEditingController _textController = TextEditingController();
 
   final doneTextStyle = const TextStyle(
-    color: Colors.black,
+    color: Colors.green,
     fontWeight: FontWeight.normal,
     fontFamily: 'Roboto',
     fontSize: 14,
@@ -25,6 +25,7 @@ class _MovieAddReviewViewState extends State<MovieAddReviewView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Review'),
+        centerTitle: true,
         actions: [
           Padding(
               padding: const EdgeInsets.only(right: 25),
@@ -33,7 +34,7 @@ class _MovieAddReviewViewState extends State<MovieAddReviewView> {
                     widget.onDoneTapped(_textController.text);
                     Navigator.pop(context);
                   },
-                  child: Text("Done", style: doneTextStyle)))
+                  child: const Text("Done")))
         ],
       ),
       body: Center(

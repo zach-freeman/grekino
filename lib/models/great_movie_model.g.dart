@@ -40,6 +40,11 @@ class $GreatMovieModelTable extends GreatMovieModel
   late final GeneratedColumn<String> genres = GeneratedColumn<String>(
       'Genres', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _imdbIdMeta = const VerificationMeta('imdbId');
+  @override
+  late final GeneratedColumn<String> imdbId = GeneratedColumn<String>(
+      'ImdbId', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _isCriterionMeta =
       const VerificationMeta('isCriterion');
   @override
@@ -84,6 +89,7 @@ class $GreatMovieModelTable extends GreatMovieModel
         volume,
         year,
         genres,
+        imdbId,
         isCriterion,
         isWatched,
         dateWatched,
@@ -134,6 +140,12 @@ class $GreatMovieModelTable extends GreatMovieModel
           genres.isAcceptableOrUnknown(data['Genres']!, _genresMeta));
     } else if (isInserting) {
       context.missing(_genresMeta);
+    }
+    if (data.containsKey('ImdbId')) {
+      context.handle(_imdbIdMeta,
+          imdbId.isAcceptableOrUnknown(data['ImdbId']!, _imdbIdMeta));
+    } else if (isInserting) {
+      context.missing(_imdbIdMeta);
     }
     if (data.containsKey('IsCriterion')) {
       context.handle(
@@ -194,6 +206,8 @@ class $GreatMovieModelTable extends GreatMovieModel
           .read(DriftSqlType.int, data['${effectivePrefix}Year'])!,
       genres: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}Genres'])!,
+      imdbId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}ImdbId'])!,
       isCriterion: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}IsCriterion'])!,
       isWatched: attachedDatabase.typeMapping
@@ -220,6 +234,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
   final int volume;
   final int year;
   final String genres;
+  final String imdbId;
   final bool isCriterion;
   final bool isWatched;
   final String dateWatched;
@@ -232,6 +247,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
       required this.volume,
       required this.year,
       required this.genres,
+      required this.imdbId,
       required this.isCriterion,
       required this.isWatched,
       required this.dateWatched,
@@ -246,6 +262,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
     map['Volume'] = Variable<int>(volume);
     map['Year'] = Variable<int>(year);
     map['Genres'] = Variable<String>(genres);
+    map['ImdbId'] = Variable<String>(imdbId);
     map['IsCriterion'] = Variable<bool>(isCriterion);
     map['IsWatched'] = Variable<bool>(isWatched);
     map['DateWatched'] = Variable<String>(dateWatched);
@@ -262,6 +279,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
       volume: Value(volume),
       year: Value(year),
       genres: Value(genres),
+      imdbId: Value(imdbId),
       isCriterion: Value(isCriterion),
       isWatched: Value(isWatched),
       dateWatched: Value(dateWatched),
@@ -280,6 +298,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
       volume: serializer.fromJson<int>(json['volume']),
       year: serializer.fromJson<int>(json['year']),
       genres: serializer.fromJson<String>(json['genres']),
+      imdbId: serializer.fromJson<String>(json['imdbId']),
       isCriterion: serializer.fromJson<bool>(json['isCriterion']),
       isWatched: serializer.fromJson<bool>(json['isWatched']),
       dateWatched: serializer.fromJson<String>(json['dateWatched']),
@@ -297,6 +316,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
       'volume': serializer.toJson<int>(volume),
       'year': serializer.toJson<int>(year),
       'genres': serializer.toJson<String>(genres),
+      'imdbId': serializer.toJson<String>(imdbId),
       'isCriterion': serializer.toJson<bool>(isCriterion),
       'isWatched': serializer.toJson<bool>(isWatched),
       'dateWatched': serializer.toJson<String>(dateWatched),
@@ -312,6 +332,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
           int? volume,
           int? year,
           String? genres,
+          String? imdbId,
           bool? isCriterion,
           bool? isWatched,
           String? dateWatched,
@@ -324,6 +345,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
         volume: volume ?? this.volume,
         year: year ?? this.year,
         genres: genres ?? this.genres,
+        imdbId: imdbId ?? this.imdbId,
         isCriterion: isCriterion ?? this.isCriterion,
         isWatched: isWatched ?? this.isWatched,
         dateWatched: dateWatched ?? this.dateWatched,
@@ -339,6 +361,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
           ..write('volume: $volume, ')
           ..write('year: $year, ')
           ..write('genres: $genres, ')
+          ..write('imdbId: $imdbId, ')
           ..write('isCriterion: $isCriterion, ')
           ..write('isWatched: $isWatched, ')
           ..write('dateWatched: $dateWatched, ')
@@ -350,7 +373,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
 
   @override
   int get hashCode => Object.hash(id, name, director, volume, year, genres,
-      isCriterion, isWatched, dateWatched, userStarRating, userReview);
+      imdbId, isCriterion, isWatched, dateWatched, userStarRating, userReview);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -361,6 +384,7 @@ class GreatMovies extends DataClass implements Insertable<GreatMovies> {
           other.volume == this.volume &&
           other.year == this.year &&
           other.genres == this.genres &&
+          other.imdbId == this.imdbId &&
           other.isCriterion == this.isCriterion &&
           other.isWatched == this.isWatched &&
           other.dateWatched == this.dateWatched &&
@@ -375,6 +399,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
   final Value<int> volume;
   final Value<int> year;
   final Value<String> genres;
+  final Value<String> imdbId;
   final Value<bool> isCriterion;
   final Value<bool> isWatched;
   final Value<String> dateWatched;
@@ -388,6 +413,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
     this.volume = const Value.absent(),
     this.year = const Value.absent(),
     this.genres = const Value.absent(),
+    this.imdbId = const Value.absent(),
     this.isCriterion = const Value.absent(),
     this.isWatched = const Value.absent(),
     this.dateWatched = const Value.absent(),
@@ -402,6 +428,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
     required int volume,
     required int year,
     required String genres,
+    required String imdbId,
     required bool isCriterion,
     required bool isWatched,
     required String dateWatched,
@@ -414,6 +441,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
         volume = Value(volume),
         year = Value(year),
         genres = Value(genres),
+        imdbId = Value(imdbId),
         isCriterion = Value(isCriterion),
         isWatched = Value(isWatched),
         dateWatched = Value(dateWatched),
@@ -426,6 +454,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
     Expression<int>? volume,
     Expression<int>? year,
     Expression<String>? genres,
+    Expression<String>? imdbId,
     Expression<bool>? isCriterion,
     Expression<bool>? isWatched,
     Expression<String>? dateWatched,
@@ -440,6 +469,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
       if (volume != null) 'Volume': volume,
       if (year != null) 'Year': year,
       if (genres != null) 'Genres': genres,
+      if (imdbId != null) 'ImdbId': imdbId,
       if (isCriterion != null) 'IsCriterion': isCriterion,
       if (isWatched != null) 'IsWatched': isWatched,
       if (dateWatched != null) 'DateWatched': dateWatched,
@@ -456,6 +486,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
       Value<int>? volume,
       Value<int>? year,
       Value<String>? genres,
+      Value<String>? imdbId,
       Value<bool>? isCriterion,
       Value<bool>? isWatched,
       Value<String>? dateWatched,
@@ -469,6 +500,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
       volume: volume ?? this.volume,
       year: year ?? this.year,
       genres: genres ?? this.genres,
+      imdbId: imdbId ?? this.imdbId,
       isCriterion: isCriterion ?? this.isCriterion,
       isWatched: isWatched ?? this.isWatched,
       dateWatched: dateWatched ?? this.dateWatched,
@@ -498,6 +530,9 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
     }
     if (genres.present) {
       map['Genres'] = Variable<String>(genres.value);
+    }
+    if (imdbId.present) {
+      map['ImdbId'] = Variable<String>(imdbId.value);
     }
     if (isCriterion.present) {
       map['IsCriterion'] = Variable<bool>(isCriterion.value);
@@ -529,6 +564,7 @@ class GreatMovieModelCompanion extends UpdateCompanion<GreatMovies> {
           ..write('volume: $volume, ')
           ..write('year: $year, ')
           ..write('genres: $genres, ')
+          ..write('imdbId: $imdbId, ')
           ..write('isCriterion: $isCriterion, ')
           ..write('isWatched: $isWatched, ')
           ..write('dateWatched: $dateWatched, ')
