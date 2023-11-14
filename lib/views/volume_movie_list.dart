@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/view_models/great_movies_view_model.dart';
+import 'package:flutter_great_movies/view_models/volume_movie_list_view_model.dart';
 import 'package:flutter_great_movies/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
 
-class VolumeMovieList extends StatelessWidget {
+class VolumeMovieList extends StatefulWidget {
   final int volume;
+
   const VolumeMovieList({super.key, required this.volume});
 
   @override
+  State<VolumeMovieList> createState() => _VolumeMovieListState();
+}
+
+class _VolumeMovieListState extends State<VolumeMovieList> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<VolumeMovieListViewModel>().getGreatMovies(widget.volume);
+  }
+  @override
   Widget build(BuildContext context) {
-    GreatMoviesViewModel greatMoviesViewModel =
-        context.watch<GreatMoviesViewModel>();
-    var title = 'Volume $volume';
+    final volumeMovieListViewModel =
+        context.watch<VolumeMovieListViewModel>();
+    var title = 'Volume ${widget.volume}';
     return MaterialApp(
       title: title,
       theme: ThemeData(
@@ -21,14 +33,14 @@ class VolumeMovieList extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(title: Text(title)),
-        body: _getBody(context, greatMoviesViewModel, title, volume),
+        body: _getBody(context, volumeMovieListViewModel, title, widget.volume),
       ),
     );
   }
 
   Widget _getBody(BuildContext context,
-      GreatMoviesViewModel greatMoviesViewModel, String title, int volume) {
-    if (greatMoviesViewModel.loading) {
+      VolumeMovieListViewModel volumeMovieListViewModel, String title, int volume) {
+    if (volumeMovieListViewModel.loading) {
       return const Center(
           child: SizedBox(
         width: 40.0,
@@ -36,13 +48,11 @@ class VolumeMovieList extends StatelessWidget {
         child: CircularProgressIndicator(),
       ));
     }
-    List<GreatMovies> greatMovies =
-        _selectGreatMovieList(greatMoviesViewModel, volume);
     return ListView.builder(
-        itemCount: greatMovies.length,
+        itemCount: volumeMovieListViewModel.greatMovies.length,
         padding: const EdgeInsets.all(8),
         itemBuilder: (context, index) {
-          final greatMovie = greatMovies[index];
+          final greatMovie = volumeMovieListViewModel.greatMovies[index];
           return ListTile(
             title: Text(greatMovie.name),
             trailing: const Icon(Icons.visibility),
@@ -59,19 +69,4 @@ class VolumeMovieList extends StatelessWidget {
         });
   }
 
-  List<GreatMovies> _selectGreatMovieList(
-      GreatMoviesViewModel greatMoviesViewModel, int volume) {
-    switch (volume) {
-      case 1:
-        return greatMoviesViewModel.greatMoviesOne;
-      case 2:
-        return greatMoviesViewModel.greatMoviesTwo;
-      case 3:
-        return greatMoviesViewModel.greatMoviesThree;
-      case 4:
-        return greatMoviesViewModel.greatMoviesFour;
-      default:
-        return greatMoviesViewModel.greatMoviesOne;
-    }
-  }
 }
