@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/locator.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
-import 'package:flutter_great_movies/models/tmdb_results_model.dart';
-import 'package:flutter_great_movies/repositories/i_tmdb_repository.dart';
-import 'package:flutter_great_movies/services/api_service.dart';
+import 'package:flutter_great_movies/view_models/movie_list_item_view_model.dart';
 import 'package:flutter_great_movies/views/movie_add_view.dart';
+import 'package:provider/provider.dart';
 
 class MovieListItem extends StatefulWidget {
   final String pageTitle;
@@ -17,57 +15,52 @@ class MovieListItem extends StatefulWidget {
 
   @override
   State<MovieListItem> createState() => _MovieListItemState();
+
 }
 
 class _MovieListItemState extends State<MovieListItem> {
-  String _posterImageUrl = "https://placehold.co/600x400";
 
   @override
   void initState() {
     super.initState();
-    _getImageUrl();
-  }
-
-  void _getImageUrl() async {
-    TmdbResults tmdbResults =
-        (await ApiService().getTmdbMovieResults(widget.greatMovie.imdbId))!;
-    var movieResult = tmdbResults.movieResults[0];
-    ITmdbRepository tmdbRepository = locator<ITmdbRepository>();
-    String imageUrlPrefix = await tmdbRepository.getImageUrlPrefix();
-    _posterImageUrl = imageUrlPrefix + movieResult.posterPath;
-    print("setting posterImageUrl to $_posterImageUrl");
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    context.read<MovieListItemViewModel>().getPosterImageUrl(widget.greatMovie.imdbId);
   }
 
   @override
   Widget build(BuildContext context) {
+    final movieListItemViewModel = context.watch<MovieListItemViewModel>();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.pageTitle),
       ),
-      body: _posterImageUrl == "https://placehold.co/600x400"
-          ? const Center(child: CircularProgressIndicator())
-          : Center(
-              child: Column(children: [
-              CachedNetworkImage(
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  imageUrl: _posterImageUrl),
-              Text(widget.greatMovie.name),
-              Text(widget.greatMovie.director),
-              Text(widget.greatMovie.year.toString()),
-              const Spacer(),
-            ])),
+      body: _getBody(context, movieListItemViewModel),
       floatingActionButton: FloatingActionButton(
         elevation: 10.0,
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(CupertinoPageRoute(
               fullscreenDialog: true,
-              builder: (context) =>
-                  MovieAddView(greatMovie: widget.greatMovie)));
+              builder: (context) => MovieAddView(greatMovie: widget.greatMovie, posterImageUrl: movieListItemViewModel.posterImageUrl)));
         },
       ),
     );
+  }
+
+  Widget _getBody(
+      BuildContext context, MovieListItemViewModel movieListItemViewModel) {
+    final posterImageUrl = movieListItemViewModel.posterImageUrl;
+    if (movieListItemViewModel.loading) {
+      return const CircularProgressIndicator();
+    }
+    return Center(
+        child: Column(children: [
+      CachedNetworkImage(
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          imageUrl: posterImageUrl),
+      Text(widget.greatMovie.name),
+      Text(widget.greatMovie.director),
+      Text(widget.greatMovie.year.toString()),
+      const Spacer(),
+    ]));
   }
 }

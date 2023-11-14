@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:flutter_great_movies/view_models/movie_add_view_model.dart';
 import 'package:flutter_great_movies/views/movie_add_review_view.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +11,9 @@ typedef StringCallback = void Function(String review);
 
 class MovieAddView extends StatefulWidget {
   final GreatMovies greatMovie;
+  final String posterImageUrl;
 
-  const MovieAddView({super.key, required this.greatMovie});
+  const MovieAddView({super.key, required this.greatMovie, required this.posterImageUrl});
 
   @override
   State<MovieAddView> createState() => _MovieAddViewState();
@@ -82,15 +85,9 @@ class _MovieAddViewState extends State<MovieAddView> {
         : "Add Review...";
   }
 
-  Future updateMovie(BuildContext context, String id) async {
-    var database = Provider.of<GreatMovieDatabase>(context, listen: false);
-    var selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
-    return await database.updateMovie(
-        id, selectedDateString, selectedRating, userReview);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final movieAddViewModel = context.watch<MovieAddViewModel>();
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -110,7 +107,7 @@ class _MovieAddViewState extends State<MovieAddView> {
             padding: const EdgeInsets.only(right: 25),
             child: TextButton(
                 onPressed: () {
-                  updateMovie(context, widget.greatMovie.id);
+                  movieAddViewModel.updateMovie(widget.greatMovie.id, selectedDate, selectedRating, userReview);
                   Navigator.pop(context);
                 },
                 child: const Text("Save")),
@@ -119,7 +116,7 @@ class _MovieAddViewState extends State<MovieAddView> {
       ),
       body: Center(
           child: Column(children: [
-        movieInfo(widget.greatMovie),
+        movieInfo(widget.greatMovie, widget.posterImageUrl),
         dateWatched(context),
         const Divider(),
         rated(),
@@ -129,20 +126,22 @@ class _MovieAddViewState extends State<MovieAddView> {
     );
   }
 
-  Widget movieInfo(GreatMovies greatMovie) {
+  Widget movieInfo(GreatMovies greatMovie, String posterImageUrl) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: outerHorizontalPadding),
       child: ColoredBox(
           color: Colors.grey.shade100,
           child: Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: innerHorizontalPadding, vertical: 25),
+                  horizontal: innerHorizontalPadding, vertical: 15),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
+                  CachedNetworkImage(imageUrl: posterImageUrl, width: 35, height: 35),
+                  const SizedBox(width: 5),
                   Text(greatMovie.name, style: nameTextStyle),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   Text(greatMovie.year.toString())
                 ],
               ))),
