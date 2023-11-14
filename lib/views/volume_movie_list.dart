@@ -62,7 +62,13 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => MovieListItem(
-                          pageTitle: title, greatMovie: greatMovie)));
+                          pageTitle: title,
+                          greatMovie: greatMovie))).then((value) => {
+                volumeMovieListViewModel.getGreatMovies(widget.volume).then((result) {
+                  setState(() {
+                  });
+                })
+              });
             },
           );
         });
