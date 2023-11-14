@@ -1,11 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/locator.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
-import 'package:flutter_great_movies/models/tmdb_results_model.dart';
-import 'package:flutter_great_movies/repositories/i_tmdb_repository.dart';
-import 'package:flutter_great_movies/services/api_service.dart';
 import 'package:flutter_great_movies/view_models/movie_list_item_view_model.dart';
 import 'package:flutter_great_movies/views/movie_add_view.dart';
 import 'package:provider/provider.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/view_models/volume_movie_list_view_model.dart';
 import 'package:flutter_great_movies/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_great_movies/models/great_movie_model.dart';
 
 class VolumeMovieList extends StatefulWidget {
   final int volume;
