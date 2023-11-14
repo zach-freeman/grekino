@@ -13,16 +13,15 @@ class VolumeMovieList extends StatefulWidget {
 }
 
 class _VolumeMovieListState extends State<VolumeMovieList> {
-
   @override
   void initState() {
     super.initState();
     context.read<VolumeMovieListViewModel>().getGreatMovies(widget.volume);
   }
+
   @override
   Widget build(BuildContext context) {
-    final volumeMovieListViewModel =
-        context.watch<VolumeMovieListViewModel>();
+    final volumeMovieListViewModel = context.watch<VolumeMovieListViewModel>();
     var title = 'Volume ${widget.volume}';
     return MaterialApp(
       title: title,
@@ -37,8 +36,11 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
     );
   }
 
-  Widget _getBody(BuildContext context,
-      VolumeMovieListViewModel volumeMovieListViewModel, String title, int volume) {
+  Widget _getBody(
+      BuildContext context,
+      VolumeMovieListViewModel volumeMovieListViewModel,
+      String title,
+      int volume) {
     if (volumeMovieListViewModel.loading) {
       return const Center(
           child: SizedBox(
@@ -64,14 +66,14 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
                       builder: (context) => MovieListItem(
                           pageTitle: title,
                           greatMovie: greatMovie))).then((value) => {
-                volumeMovieListViewModel.getGreatMovies(widget.volume).then((result) {
-                  setState(() {
+                    volumeMovieListViewModel
+                        .getGreatMovies(widget.volume)
+                        .then((result) {
+                      setState(() {});
+                    })
                   });
-                })
-              });
             },
           );
         });
   }
-
 }

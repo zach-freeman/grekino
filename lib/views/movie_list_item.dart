@@ -40,7 +40,7 @@ class _MovieListItemState extends State<MovieListItem> {
         onPressed: () {
           Navigator.of(context).push(CupertinoPageRoute(
               fullscreenDialog: true,
-              builder: (context) => MovieAddView(greatMovie: widget.greatMovie)));
+              builder: (context) => MovieAddView(greatMovie: widget.greatMovie, posterImageUrl: movieListItemViewModel.posterImageUrl)));
         },
       ),
     );
