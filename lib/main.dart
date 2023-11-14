@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/locator.dart';
+import 'package:flutter_great_movies/view_models/movie_add_view_model.dart';
 import 'package:flutter_great_movies/view_models/volume_movie_list_view_model.dart';
 import 'package:flutter_great_movies/view_models/movie_list_item_view_model.dart';
 import 'package:flutter_great_movies/views/volume_movie_list.dart';
@@ -12,6 +13,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => VolumeMovieListViewModel()),
       ChangeNotifierProvider(create: (_) => MovieListItemViewModel()),
+      ChangeNotifierProvider(create: (_) => MovieAddViewModel()),
     ],
     child: const GreatMovieApp(),
   ));

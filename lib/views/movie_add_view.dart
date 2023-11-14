@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:flutter_great_movies/view_models/movie_add_view_model.dart';
 import 'package:flutter_great_movies/views/movie_add_review_view.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -82,15 +83,9 @@ class _MovieAddViewState extends State<MovieAddView> {
         : "Add Review...";
   }
 
-  Future updateMovie(BuildContext context, String id) async {
-    var database = Provider.of<GreatMovieDatabase>(context, listen: false);
-    var selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
-    return await database.updateMovie(
-        id, selectedDateString, selectedRating, userReview);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final movieAddViewModel = context.watch<MovieAddViewModel>();
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -110,7 +105,7 @@ class _MovieAddViewState extends State<MovieAddView> {
             padding: const EdgeInsets.only(right: 25),
             child: TextButton(
                 onPressed: () {
-                  updateMovie(context, widget.greatMovie.id);
+                  movieAddViewModel.updateMovie(widget.greatMovie.id, selectedDate, selectedRating, userReview);
                   Navigator.pop(context);
                 },
                 child: const Text("Save")),
