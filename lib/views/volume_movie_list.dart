@@ -1,80 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_great_movies/view_models/great_movies_view_model.dart';
 import 'package:flutter_great_movies/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
-import '../models/great_movie_model.dart';
+import 'package:flutter_great_movies/models/great_movie_model.dart';
 
-class VolumeMovieList extends StatefulWidget {
+class VolumeMovieList extends StatelessWidget {
   final int volume;
   const VolumeMovieList({super.key, required this.volume});
 
   @override
-  State<VolumeMovieList> createState() => _VolumeMovieListState();
-}
-
-class _VolumeMovieListState extends State<VolumeMovieList> {
-  late GreatMovieDatabase greatMovieDatabase;
-
-  @override
   Widget build(BuildContext context) {
-    greatMovieDatabase = Provider.of<GreatMovieDatabase>(context);
-    var title = 'Volume ${widget.volume}';
-    return FutureBuilder(
-      future: fetchMovies(widget.volume),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child: SizedBox(
-            width: 40.0,
-            height: 40.0,
-            child: CircularProgressIndicator(),
-          ));
-        }
-
-        if (snapshot.hasData) {
-          return MaterialApp(
-            title: title,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-              useMaterial3: true,
-            ),
-            home: Scaffold(
-              appBar: AppBar(title: Text(title)),
-              body: ListView.builder(
-                  itemCount: snapshot.data.length,
-                  padding: const EdgeInsets.all(8),
-                  itemBuilder: (context, index) {
-                    final greatMovie = snapshot.data[index];
-                    return ListTile(
-                      title: Text(greatMovie.name),
-                      trailing: const Icon(Icons.visibility),
-                      iconColor:
-                          greatMovie.isWatched ? Colors.blue : Colors.grey,
-                      subtitle: Text(greatMovie.director),
-                                            onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MovieListItem(
-                                    pageTitle: title,
-                                    greatMovie: greatMovie))).then((value) => {
-                              fetchMovies(widget.volume).then((result) {
-                                setState(() {
-                                });
-                              })
-                            });
-                      },
-                    );
-                  }),
-            ),
-          );
-        }
-
-        return Container();
-      },
+    GreatMoviesViewModel greatMoviesViewModel =
+        context.watch<GreatMoviesViewModel>();
+    var title = 'Volume $volume';
+    return MaterialApp(
+      title: title,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: Scaffold(
+        appBar: AppBar(title: Text(title)),
+        body: _getBody(context, greatMoviesViewModel, title, volume),
+      ),
     );
   }
 
-  Future<List<GreatMovies>> fetchMovies(int volumeNumber) async {
-    return await greatMovieDatabase.moviesForVolume(volumeNumber);
+  Widget _getBody(BuildContext context,
+      GreatMoviesViewModel greatMoviesViewModel, String title, int volume) {
+    if (greatMoviesViewModel.loading) {
+      return const Center(
+          child: SizedBox(
+        width: 40.0,
+        height: 40.0,
+        child: CircularProgressIndicator(),
+      ));
+    }
+    List<GreatMovies> greatMovies =
+        _selectGreatMovieList(greatMoviesViewModel, volume);
+    return ListView.builder(
+        itemCount: greatMovies.length,
+        padding: const EdgeInsets.all(8),
+        itemBuilder: (context, index) {
+          final greatMovie = greatMovies[index];
+          return ListTile(
+            title: Text(greatMovie.name),
+            trailing: const Icon(Icons.visibility),
+            iconColor: greatMovie.isWatched ? Colors.blue : Colors.grey,
+            subtitle: Text(greatMovie.director),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MovieListItem(
+                          pageTitle: title, greatMovie: greatMovie)));
+            },
+          );
+        });
+  }
+
+  List<GreatMovies> _selectGreatMovieList(
+      GreatMoviesViewModel greatMoviesViewModel, int volume) {
+    switch (volume) {
+      case 1:
+        return greatMoviesViewModel.greatMoviesOne;
+      case 2:
+        return greatMoviesViewModel.greatMoviesTwo;
+      case 3:
+        return greatMoviesViewModel.greatMoviesThree;
+      case 4:
+        return greatMoviesViewModel.greatMoviesFour;
+      default:
+        return greatMoviesViewModel.greatMoviesOne;
+    }
   }
 }

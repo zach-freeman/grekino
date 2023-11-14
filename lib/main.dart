@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/locator.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
+import 'package:flutter_great_movies/view_models/great_movies_view_model.dart';
 import 'package:flutter_great_movies/views/volume_movie_list.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  runApp(Provider<GreatMovieDatabase>(
-    create: (context) => GreatMovieDatabase(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => GreatMoviesViewModel()),
+    ],
     child: const GreatMovieApp(),
-    dispose: (context, db) => db.close(),
   ));
 }
 

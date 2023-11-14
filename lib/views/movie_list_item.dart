@@ -5,7 +5,6 @@ import 'package:flutter_great_movies/locator.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
 import 'package:flutter_great_movies/models/tmdb_results_model.dart';
 import 'package:flutter_great_movies/repositories/i_tmdb_repository.dart';
-import 'package:flutter_great_movies/repositories/tmdb_repository.dart';
 import 'package:flutter_great_movies/services/api_service.dart';
 import 'package:flutter_great_movies/views/movie_add_view.dart';
 
@@ -21,7 +20,7 @@ class MovieListItem extends StatefulWidget {
 }
 
 class _MovieListItemState extends State<MovieListItem> {
-  String _posterImageUrl = "https://placehold.co/600x400";
+  String? _posterImageUrl;
 
   @override
   void initState() {
@@ -35,9 +34,9 @@ class _MovieListItemState extends State<MovieListItem> {
     var movieResult = tmdbResults.movieResults[0];
     ITmdbRepository tmdbRepository = locator<ITmdbRepository>();
     String imageUrlPrefix = await tmdbRepository.getImageUrlPrefix();
-    _posterImageUrl = imageUrlPrefix + movieResult.posterPath;
-    print("setting posterImageUrl to $_posterImageUrl");
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    setState(() {
+      _posterImageUrl = imageUrlPrefix + movieResult.posterPath;
+    });
   }
 
   @override
@@ -46,19 +45,7 @@ class _MovieListItemState extends State<MovieListItem> {
       appBar: AppBar(
         title: Text(widget.pageTitle),
       ),
-      body: _posterImageUrl == "https://placehold.co/600x400"
-          ? const Center(child: CircularProgressIndicator())
-          : Center(
-              child: Column(children: [
-              CachedNetworkImage(
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  imageUrl: _posterImageUrl),
-              Text(widget.greatMovie.name),
-              Text(widget.greatMovie.director),
-              Text(widget.greatMovie.year.toString()),
-              const Spacer(),
-            ])),
+      body: _getBody(context),
       floatingActionButton: FloatingActionButton(
         elevation: 10.0,
         child: const Icon(Icons.add),
@@ -70,5 +57,22 @@ class _MovieListItemState extends State<MovieListItem> {
         },
       ),
     );
+  }
+
+  Widget _getBody(BuildContext context) {
+    final posterImageUrl = _posterImageUrl;
+    if (posterImageUrl != null) {
+      return Center(
+          child: Column(children: [
+        CachedNetworkImage(
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            imageUrl: posterImageUrl),
+        Text(widget.greatMovie.name),
+        Text(widget.greatMovie.director),
+        Text(widget.greatMovie.year.toString()),
+        const Spacer(),
+      ]));
+    }
+    return const CircularProgressIndicator();
   }
 }
