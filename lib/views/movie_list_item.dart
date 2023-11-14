@@ -5,7 +5,6 @@ import 'package:flutter_great_movies/locator.dart';
 import 'package:flutter_great_movies/models/great_movie_model.dart';
 import 'package:flutter_great_movies/models/tmdb_results_model.dart';
 import 'package:flutter_great_movies/repositories/i_tmdb_repository.dart';
-import 'package:flutter_great_movies/repositories/tmdb_repository.dart';
 import 'package:flutter_great_movies/services/api_service.dart';
 import 'package:flutter_great_movies/views/movie_add_view.dart';
 
