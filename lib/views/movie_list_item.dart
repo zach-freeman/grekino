@@ -54,27 +54,37 @@ class _MovieListItemState extends State<MovieListItem> {
     if (movieListItemViewModel.loading) {
       return const CircularProgressIndicator();
     }
-    return Center(
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(children: [
+      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.greatMovie.name, style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 20),
+            Text("${widget.greatMovie.year} | DIRECTED BY",
+                style: const TextStyle(fontSize: 12)),
+            const SizedBox(height: 5),
+            Text(widget.greatMovie.director,
+                style: const TextStyle(fontSize: 14)),
+          ],
+        ),
+        Column(
+          children: [
+            CachedNetworkImage(
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                imageUrl: posterImageUrl),
+          ],
+        )
+      ]),
+      Row(
         children: [
-          Text(widget.greatMovie.name, style: const TextStyle(fontSize: 16)),
-          const SizedBox(height: 20),
-          Text("${widget.greatMovie.year} | DIRECTED BY",
-              style: const TextStyle(fontSize: 12)),
-          const SizedBox(height: 5),
-          Text(widget.greatMovie.director,
-              style: const TextStyle(fontSize: 14)),
-        ],
-      ),
-      Column(
-        children: [
-          CachedNetworkImage(
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              imageUrl: posterImageUrl),
+          Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.all(25),
+                  child: Text(movieListItemViewModel.description)))
         ],
       )
-    ]));
+    ]);
   }
 }
