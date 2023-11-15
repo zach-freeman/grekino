@@ -17,7 +17,7 @@ class MovieAddViewModel extends ChangeNotifier {
     setLoading(true);
     IGreatMoviesRepository greatMoviesRepository = locator<IGreatMoviesRepository>();
     String date = DateFormat('yyyy-MM-dd').format(dateTime);
-    await greatMoviesRepository.updateMovie(id, date, rating, review);
+    await greatMoviesRepository.updateMovieWatchInfo(id, date, rating, review);
     setLoading(false);
   }
 }

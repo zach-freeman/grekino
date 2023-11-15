@@ -15,15 +15,15 @@ class MovieListItem extends StatefulWidget {
 
   @override
   State<MovieListItem> createState() => _MovieListItemState();
-
 }
 
 class _MovieListItemState extends State<MovieListItem> {
-
   @override
   void initState() {
     super.initState();
-    context.read<MovieListItemViewModel>().getPosterImageUrl(widget.greatMovie.imdbId);
+    context
+        .read<MovieListItemViewModel>()
+        .getMovieInfo(widget.greatMovie.id, widget.greatMovie.imdbId);
   }
 
   @override
@@ -40,7 +40,9 @@ class _MovieListItemState extends State<MovieListItem> {
         onPressed: () {
           Navigator.of(context).push(CupertinoPageRoute(
               fullscreenDialog: true,
-              builder: (context) => MovieAddView(greatMovie: widget.greatMovie, posterImageUrl: movieListItemViewModel.posterImageUrl)));
+              builder: (context) => MovieAddView(
+                  greatMovie: widget.greatMovie,
+                  posterImageUrl: movieListItemViewModel.posterImageUrl)));
         },
       ),
     );
@@ -53,14 +55,26 @@ class _MovieListItemState extends State<MovieListItem> {
       return const CircularProgressIndicator();
     }
     return Center(
-        child: Column(children: [
-      CachedNetworkImage(
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          imageUrl: posterImageUrl),
-      Text(widget.greatMovie.name),
-      Text(widget.greatMovie.director),
-      Text(widget.greatMovie.year.toString()),
-      const Spacer(),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.greatMovie.name, style: const TextStyle(fontSize: 16)),
+          const SizedBox(height: 20),
+          Text("${widget.greatMovie.year} | DIRECTED BY",
+              style: const TextStyle(fontSize: 12)),
+          const SizedBox(height: 5),
+          Text(widget.greatMovie.director,
+              style: const TextStyle(fontSize: 14)),
+        ],
+      ),
+      Column(
+        children: [
+          CachedNetworkImage(
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              imageUrl: posterImageUrl),
+        ],
+      )
     ]));
   }
 }

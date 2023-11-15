@@ -20,10 +20,8 @@ class TmdbRepository extends ITmdbRepository {
   }
 
   @override
-  Future<String> getPosterImageUrl(String imdbId) async {
+  Future<MovieResult> getMovieResult(String imdbId) async {
     TmdbResults tmdbResults = (await ApiService().getTmdbMovieResults(imdbId))!;
-    MovieResult movieResult = tmdbResults.movieResults[0];
-    String imageUrlPrefix = await getImageUrlPrefix();
-    return imageUrlPrefix + movieResult.posterPath;
+    return tmdbResults.movieResults[0];
   }
 }

@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_great_movies/views/movie_add_view.dart';
 
 /// Displays detailed information about a SampleItem.
 class MovieAddReviewView extends StatefulWidget {
   final StringCallback onDoneTapped;
-  const MovieAddReviewView({super.key, required this.onDoneTapped});
+  final String posterImageUrl;
+  const MovieAddReviewView({super.key, required this.onDoneTapped, required this.posterImageUrl});
 
   @override
   State<MovieAddReviewView> createState() => _MovieAddReviewViewState();
@@ -26,6 +28,10 @@ class _MovieAddReviewViewState extends State<MovieAddReviewView> {
       appBar: AppBar(
         title: const Text('Add Review'),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {},
+          icon: CachedNetworkImage(imageUrl: widget.posterImageUrl),
+        ),
         actions: [
           Padding(
               padding: const EdgeInsets.only(right: 25),

@@ -11,8 +11,18 @@ class GreatMoviesRepository extends IGreatMoviesRepository {
   }
 
   @override
-  Future<void> updateMovie(
+  Future<GreatMovies> getMovieForId(String id) {
+    return _greatMovieDatabase.movieForId(id);
+  }
+
+  @override
+  Future<void> updateMovieWatchInfo(
       String id, String dateWatched, double starRating, String review) {
-    return _greatMovieDatabase.updateMovie(id, dateWatched, starRating, review);
+    return _greatMovieDatabase.updateMovieWatchInfo(id, dateWatched, starRating, review);
+  }
+
+  @override
+  Future<void> updateMovieInfo(String id, String posterImageUrl, String description) {
+    return _greatMovieDatabase.updateMovieInfo(id, posterImageUrl, description);
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drift/native.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:http/http.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 part 'great_movie_model.g.dart';
@@ -17,7 +18,9 @@ class GreatMovieModel extends Table {
   IntColumn get volume => integer().named("Volume")();
   IntColumn get year => integer().named("Year")();
   TextColumn get genres => text().named("Genres")();
+  TextColumn get description => text().named("Description")();
   TextColumn get imdbId => text().named("ImdbId")();
+  TextColumn get posterImageUrl => text().named("PosterImageUrl")();
   BoolColumn get isCriterion => boolean().named("IsCriterion")();
   BoolColumn get isWatched => boolean().named("IsWatched")();
   TextColumn get dateWatched => text().named("DateWatched")();
@@ -38,7 +41,12 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
         .get();
   }
 
-  Future updateMovie(
+  Future<GreatMovies> movieForId(String id) {
+    return (select(greatMovieModel)
+      ..where((movie) => movie.id.equals(id))).getSingle();
+  }
+
+  Future updateMovieWatchInfo(
       String id, String dateWatched, double starRating, String review) {
     return (update(greatMovieModel)..where((movie) => movie.id.equals(id)))
         .write(GreatMovieModelCompanion(
@@ -46,6 +54,13 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
             dateWatched: Value(dateWatched),
             userStarRating: Value(starRating),
             userReview: Value(review)));
+  }
+
+  Future updateMovieInfo(String id, String posterImageUrl, String description) {
+    return (update(greatMovieModel)..where((movie) => movie.id.equals(id)))
+        .write(GreatMovieModelCompanion(
+        description: Value(description),
+        posterImageUrl: Value(posterImageUrl),));
   }
 }
 

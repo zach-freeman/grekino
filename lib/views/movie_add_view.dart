@@ -309,6 +309,7 @@ class _MovieAddViewState extends State<MovieAddView> {
                               Navigator.of(context).push(CupertinoPageRoute(
                                   fullscreenDialog: true,
                                   builder: (context) => MovieAddReviewView(
+                                          posterImageUrl: widget.posterImageUrl,
                                           onDoneTapped: (String review) {
                                         _setReview(review);
                                       })));
