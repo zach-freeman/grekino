@@ -3,6 +3,8 @@ import 'package:flutter_great_movies/view_models/volume_movie_list_view_model.da
 import 'package:flutter_great_movies/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
 
+import '../delegates/movie_search_delegate.dart';
+
 class VolumeMovieList extends StatefulWidget {
   final int volume;
 
@@ -30,7 +32,21 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
         useMaterial3: true,
       ),
       home: Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(
+          title: Text(title),
+          actions: [
+            IconButton(
+              onPressed: () {
+                // method to show the search bar
+                showSearch(
+                    context: context,
+                    // delegate to customize the search bar
+                    delegate: MovieSearchDelegate());
+              },
+              icon: const Icon(Icons.search),
+            )
+          ],
+        ),
         body: _getBody(context, volumeMovieListViewModel, title, widget.volume),
       ),
     );
