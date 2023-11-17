@@ -32,6 +32,13 @@ class _MovieListItemState extends State<MovieListItem> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.pageTitle),
+        leading: BackButton(
+          color: Colors.black,
+          onPressed: () {
+            // do your navigate here
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
       ),
       body: _getBody(context, movieListItemViewModel),
       floatingActionButton: _getWatchFab(movieListItemViewModel),

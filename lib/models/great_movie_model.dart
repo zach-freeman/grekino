@@ -65,8 +65,11 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
   }
 
   Future<List<GreatMovies>> searchMovies(String searchTerm) {
+    String searchTermLower = searchTerm.toLowerCase();
     return (select(greatMovieModel)
-          ..where((movie) => movie.director.lower().contains(searchTerm.toLowerCase())))
+          ..where((movie) =>
+              movie.director.lower().contains(searchTermLower) |
+              movie.name.lower().contains(searchTermLower)))
         .get();
   }
 }
