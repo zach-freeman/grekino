@@ -17,7 +17,10 @@ void main() async {
       ChangeNotifierProvider(create: (_) => MovieListItemViewModel()),
       ChangeNotifierProvider(create: (_) => MovieAddViewModel()),
     ],
-    child: const MaterialApp(home: GreatMovieApp()),
+    child: MaterialApp(home: const GreatMovieApp(), theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+      useMaterial3: true,
+    )),
   ));
 }
 
@@ -30,7 +33,14 @@ class GreatMovieApp extends StatelessWidget {
         length: 4,
         child: Scaffold(
           appBar: AppBar(
+            titleTextStyle: const TextStyle(
+              color: Colors.yellowAccent,
+              fontSize: 24
+            ),
             bottom: const TabBar(
+              indicatorColor: Colors.yellowAccent,
+              labelColor: Colors.yellowAccent,
+              unselectedLabelColor: Colors.white70,
               tabs: [
                 Tab(icon: Icon(Icons.filter_1)),
                 Tab(icon: Icon(Icons.filter_2)),
@@ -39,6 +49,7 @@ class GreatMovieApp extends StatelessWidget {
               ],
             ),
             title: const Text('Great Movies'),
+            backgroundColor: Colors.blue.shade300,
             actions: [
               Padding(
                   padding: const EdgeInsets.only(right: 25),
@@ -50,7 +61,7 @@ class GreatMovieApp extends StatelessWidget {
                           // delegate to customize the search bar
                           delegate: MovieSearchDelegate());
                     },
-                    icon: const Icon(Icons.search),
+                    icon: const Icon(Icons.search, color: Colors.yellowAccent),
                   ))
             ],
           ),
