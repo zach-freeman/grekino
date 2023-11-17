@@ -8,17 +8,6 @@ import '../locator.dart';
 import '../models/great_movie_model.dart';
 
 class MovieSearchDelegate extends SearchDelegate {
-  // Demo list to show querying
-  List<String> searchTerms = [
-    "All About Eve",
-    "The Apartment",
-    "Mango",
-    "Pear",
-    "Watermelons",
-    "Blueberries",
-    "Pineapples",
-    "Strawberries"
-  ];
   late Completer _completer = Completer();
   late final Debouncer _debouncer = Debouncer(Duration(milliseconds: 300),
       initialValue: '',
@@ -79,20 +68,23 @@ class MovieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
+    if (query.length >= 3) {
+      _debouncer.value = query;
+      _completer = Completer();
+      return FutureBuilder(
+          future: _completer.future,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) => ListTile(
+                      title: Text(snapshot.data![index].name)
+                  ));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          });
     }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
+    return Container();
   }
 }

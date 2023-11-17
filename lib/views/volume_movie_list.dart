@@ -33,21 +33,7 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text(title),
-          actions: [
-            Padding(
-                padding: const EdgeInsets.only(right: 25),
-                child: IconButton(
-                  onPressed: () {
-                    // method to show the search bar
-                    showSearch(
-                        context: context,
-                        // delegate to customize the search bar
-                        delegate: MovieSearchDelegate());
-                  },
-                  icon: const Icon(Icons.search),
-                ))
-          ],
+          title: Text(title)
         ),
         body: _getBody(context, volumeMovieListViewModel, title, widget.volume),
       ),

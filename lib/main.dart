@@ -6,6 +6,8 @@ import 'package:flutter_great_movies/view_models/movie_list_item_view_model.dart
 import 'package:flutter_great_movies/views/volume_movie_list.dart';
 import 'package:provider/provider.dart';
 
+import 'delegates/movie_search_delegate.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
@@ -15,7 +17,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => MovieListItemViewModel()),
       ChangeNotifierProvider(create: (_) => MovieAddViewModel()),
     ],
-    child: const GreatMovieApp(),
+    child: const MaterialApp(home: GreatMovieApp()),
   ));
 }
 
@@ -24,8 +26,7 @@ class GreatMovieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
+    return DefaultTabController(
         length: 4,
         child: Scaffold(
           appBar: AppBar(
@@ -38,6 +39,20 @@ class GreatMovieApp extends StatelessWidget {
               ],
             ),
             title: const Text('Great Movies'),
+            actions: [
+              Padding(
+                  padding: const EdgeInsets.only(right: 25),
+                  child: IconButton(
+                    onPressed: () {
+                      // method to show the search bar
+                      showSearch(
+                          context: context,
+                          // delegate to customize the search bar
+                          delegate: MovieSearchDelegate());
+                    },
+                    icon: const Icon(Icons.search),
+                  ))
+            ],
           ),
           body: const TabBarView(
             children: [
@@ -48,7 +63,6 @@ class GreatMovieApp extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );;
   }
 }
