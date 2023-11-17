@@ -42,8 +42,8 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
   }
 
   Future<GreatMovies> movieForId(String id) {
-    return (select(greatMovieModel)
-      ..where((movie) => movie.id.equals(id))).getSingle();
+    return (select(greatMovieModel)..where((movie) => movie.id.equals(id)))
+        .getSingle();
   }
 
   Future updateMovieWatchInfo(
@@ -59,8 +59,15 @@ class GreatMovieDatabase extends _$GreatMovieDatabase {
   Future updateMovieInfo(String id, String posterImageUrl, String description) {
     return (update(greatMovieModel)..where((movie) => movie.id.equals(id)))
         .write(GreatMovieModelCompanion(
-        description: Value(description),
-        posterImageUrl: Value(posterImageUrl),));
+      description: Value(description),
+      posterImageUrl: Value(posterImageUrl),
+    ));
+  }
+
+  Future<List<GreatMovies>> searchMovies(String searchTerm) {
+    return (select(greatMovieModel)
+          ..where((movie) => movie.director.lower().contains(searchTerm.toLowerCase())))
+        .get();
   }
 }
 

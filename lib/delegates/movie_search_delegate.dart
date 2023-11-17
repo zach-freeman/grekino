@@ -1,12 +1,37 @@
+import 'dart:async';
 
+import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_great_movies/repositories/i_great_movies_repository.dart';
+
+import '../locator.dart';
+import '../models/great_movie_model.dart';
 
 class MovieSearchDelegate extends SearchDelegate {
+  // Demo list to show querying
+  List<String> searchTerms = [
+    "All About Eve",
+    "The Apartment",
+    "Mango",
+    "Pear",
+    "Watermelons",
+    "Blueberries",
+    "Pineapples",
+    "Strawberries"
+  ];
+  late Completer _completer = Completer();
+  late final Debouncer _debouncer = Debouncer(Duration(milliseconds: 300),
+      initialValue: '',
+      onChanged: (value) {
+        _completer.complete(searchChanged(value)); // call the API endpoint
+      }
+  );
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
           // When pressed here the query will be cleared from the search bar.
@@ -26,14 +51,48 @@ class MovieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
+    if (query.length >= 3) {
+      _debouncer.value = query;
+      _completer = Completer();
+      return FutureBuilder(
+          future: _completer.future,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) => ListTile(
+                 title: Text(snapshot.data![index].name)
+              ));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          });
+    }
+    return Container();
+  }
+
+  Future<List<GreatMovies>> searchChanged(String query) async {
+    IGreatMoviesRepository greatMoviesRepository =
+    locator<IGreatMoviesRepository>();
+    return await greatMoviesRepository.searchMovies(query);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    throw UnimplementedError();
+    List<String> matchQuery = [];
+    for (var fruit in searchTerms) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
   }
-  
 }

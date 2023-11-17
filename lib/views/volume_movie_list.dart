@@ -35,16 +35,18 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
         appBar: AppBar(
           title: Text(title),
           actions: [
-            IconButton(
-              onPressed: () {
-                // method to show the search bar
-                showSearch(
-                    context: context,
-                    // delegate to customize the search bar
-                    delegate: MovieSearchDelegate());
-              },
-              icon: const Icon(Icons.search),
-            )
+            Padding(
+                padding: const EdgeInsets.only(right: 25),
+                child: IconButton(
+                  onPressed: () {
+                    // method to show the search bar
+                    showSearch(
+                        context: context,
+                        // delegate to customize the search bar
+                        delegate: MovieSearchDelegate());
+                  },
+                  icon: const Icon(Icons.search),
+                ))
           ],
         ),
         body: _getBody(context, volumeMovieListViewModel, title, widget.volume),

@@ -6,4 +6,5 @@ abstract class IGreatMoviesRepository {
   Future<void> updateMovieWatchInfo(
       String id, String dateWatched, double starRating, String review);
   Future<void> updateMovieInfo(String id, String posterImageUrl, String description);
+  Future<List<GreatMovies>> searchMovies(String searchTerm);
 }

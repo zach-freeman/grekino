@@ -25,4 +25,9 @@ class GreatMoviesRepository extends IGreatMoviesRepository {
   Future<void> updateMovieInfo(String id, String posterImageUrl, String description) {
     return _greatMovieDatabase.updateMovieInfo(id, posterImageUrl, description);
   }
+
+  @override
+  Future<List<GreatMovies>> searchMovies(String searchTerm) {
+    return _greatMovieDatabase.searchMovies(searchTerm);
+  }
 }
