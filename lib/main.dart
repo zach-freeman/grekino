@@ -17,15 +17,19 @@ void main() async {
       ChangeNotifierProvider(create: (_) => MovieListItemViewModel()),
       ChangeNotifierProvider(create: (_) => MovieAddViewModel()),
     ],
-    child: MaterialApp(home: const GreatMovieApp(), theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      useMaterial3: true,
-    )),
+    child: MaterialApp(
+        home: GreatMovieApp(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+        )),
   ));
 }
 
 class GreatMovieApp extends StatelessWidget {
-  const GreatMovieApp({super.key});
+  GreatMovieApp({super.key});
+
+  final PageStorageBucket _bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +37,8 @@ class GreatMovieApp extends StatelessWidget {
         length: 4,
         child: Scaffold(
           appBar: AppBar(
-            titleTextStyle: const TextStyle(
-              color: Colors.yellowAccent,
-              fontSize: 24
-            ),
+            titleTextStyle:
+                const TextStyle(color: Colors.yellowAccent, fontSize: 24),
             bottom: const TabBar(
               indicatorColor: Colors.yellowAccent,
               labelColor: Colors.yellowAccent,
@@ -65,15 +67,14 @@ class GreatMovieApp extends StatelessWidget {
                   ))
             ],
           ),
-          body: const TabBarView(
-            children: [
-              VolumeMovieList(volume: 1),
-              VolumeMovieList(volume: 2),
-              VolumeMovieList(volume: 3),
-              VolumeMovieList(volume: 4)
-            ],
-          ),
-        ),
-      );;
+          body: PageStorage(
+              bucket: _bucket,
+              child: const TabBarView(children: [
+                VolumeMovieList(volume: 1),
+                VolumeMovieList(volume: 2),
+                VolumeMovieList(volume: 3),
+                VolumeMovieList(volume: 4)
+              ])),
+        ));
   }
 }

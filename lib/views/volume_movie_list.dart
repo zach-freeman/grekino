@@ -54,6 +54,7 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
       ));
     }
     return ListView.builder(
+        key: PageStorageKey<String>('page${volume.toString()}'),
         itemCount: volumeMovieListViewModel.greatMovies.length,
         padding: const EdgeInsets.all(8),
         itemBuilder: (context, index) {
