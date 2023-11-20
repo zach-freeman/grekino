@@ -1,7 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_great_movies/repositories/i_great_movies_repository.dart';
-import 'package:flutter_great_movies/repositories/i_tmdb_repository.dart';
+import 'package:grekino/repositories/i_great_movies_repository.dart';
+import 'package:grekino/repositories/i_tmdb_repository.dart';
 
 import '../locator.dart';
 import '../models/great_movie_model.dart';
@@ -30,7 +29,8 @@ class MovieListItemViewModel extends ChangeNotifier {
 
   getMovieInfo(String id, String imdbId) async {
     setLoading(true);
-    IGreatMoviesRepository greatMoviesRepository = locator<IGreatMoviesRepository>();
+    IGreatMoviesRepository greatMoviesRepository =
+        locator<IGreatMoviesRepository>();
     GreatMovies greatMovie = await greatMoviesRepository.getMovieForId(id);
     if (greatMovie.posterImageUrl.isEmpty && greatMovie.description.isEmpty) {
       ITmdbRepository tmdbRepository = locator<ITmdbRepository>();

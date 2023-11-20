@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/models/great_movie_model.dart';
-import 'package:flutter_great_movies/view_models/movie_list_item_view_model.dart';
-import 'package:flutter_great_movies/views/movie_add_view.dart';
+import 'package:grekino/models/great_movie_model.dart';
+import 'package:grekino/view_models/movie_list_item_view_model.dart';
+import 'package:grekino/views/movie_add_view.dart';
 import 'package:provider/provider.dart';
 
 class MovieListItem extends StatefulWidget {
@@ -96,17 +96,30 @@ class _MovieListItemState extends State<MovieListItem> {
         child: ColoredBox(
             color: Colors.grey.shade100,
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
                     const Text("You watched this film"),
                     const SizedBox(width: 5),
-                    Icon(Icons.star, color: widget.greatMovie.userStarRating > 0.0 ? Colors.green.shade400 : Colors.grey.shade100),
-                    Icon(Icons.star, color: widget.greatMovie.userStarRating > 1.0 ? Colors.green.shade400 : Colors.grey.shade100),
-                    Icon(Icons.star, color: widget.greatMovie.userStarRating > 2.0 ? Colors.green.shade400 : Colors.grey.shade100),
-                    Icon(Icons.star, color: widget.greatMovie.userStarRating > 3.0 ? Colors.green.shade400 : Colors.grey.shade100),
+                    Icon(Icons.star,
+                        color: widget.greatMovie.userStarRating > 0.0
+                            ? Colors.green.shade400
+                            : Colors.grey.shade100),
+                    Icon(Icons.star,
+                        color: widget.greatMovie.userStarRating > 1.0
+                            ? Colors.green.shade400
+                            : Colors.grey.shade100),
+                    Icon(Icons.star,
+                        color: widget.greatMovie.userStarRating > 2.0
+                            ? Colors.green.shade400
+                            : Colors.grey.shade100),
+                    Icon(Icons.star,
+                        color: widget.greatMovie.userStarRating > 3.0
+                            ? Colors.green.shade400
+                            : Colors.grey.shade100),
                   ],
                 ))),
       );

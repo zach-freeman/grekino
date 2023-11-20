@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/locator.dart';
-import 'package:flutter_great_movies/view_models/movie_add_view_model.dart';
-import 'package:flutter_great_movies/view_models/volume_movie_list_view_model.dart';
-import 'package:flutter_great_movies/view_models/movie_list_item_view_model.dart';
-import 'package:flutter_great_movies/views/volume_movie_list.dart';
+import 'package:grekino/locator.dart';
+import 'package:grekino/view_models/movie_add_view_model.dart';
+import 'package:grekino/view_models/volume_movie_list_view_model.dart';
+import 'package:grekino/view_models/movie_list_item_view_model.dart';
+import 'package:grekino/views/volume_movie_list.dart';
 import 'package:provider/provider.dart';
 
 import 'delegates/movie_search_delegate.dart';
@@ -50,7 +50,7 @@ class GreatMovieApp extends StatelessWidget {
                 Tab(icon: Icon(Icons.filter_4)),
               ],
             ),
-            title: const Text('Great Movies'),
+            title: const Text('Grekino'),
             backgroundColor: Colors.blue.shade300,
             actions: [
               Padding(

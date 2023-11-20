@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/views/movie_add_view.dart';
+import 'package:grekino/views/movie_add_view.dart';
 
 /// Displays detailed information about a SampleItem.
 class MovieAddReviewView extends StatefulWidget {
   final StringCallback onDoneTapped;
   final String posterImageUrl;
-  const MovieAddReviewView({super.key, required this.onDoneTapped, required this.posterImageUrl});
+  const MovieAddReviewView(
+      {super.key, required this.onDoneTapped, required this.posterImageUrl});
 
   @override
   State<MovieAddReviewView> createState() => _MovieAddReviewViewState();

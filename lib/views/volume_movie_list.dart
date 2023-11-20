@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_great_movies/view_models/volume_movie_list_view_model.dart';
-import 'package:flutter_great_movies/views/movie_list_item.dart';
+import 'package:grekino/view_models/volume_movie_list_view_model.dart';
+import 'package:grekino/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
 
 import '../delegates/movie_search_delegate.dart';
@@ -32,9 +32,7 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
         useMaterial3: true,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text(title)
-        ),
+        appBar: AppBar(title: Text(title)),
         body: _getBody(context, volumeMovieListViewModel, title, widget.volume),
       ),
     );

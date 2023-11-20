@@ -1,8 +1,8 @@
-import 'package:flutter_great_movies/models/great_movie_model.dart';
-import 'package:flutter_great_movies/repositories/great_movies_repository.dart';
-import 'package:flutter_great_movies/repositories/i_great_movies_repository.dart';
-import 'package:flutter_great_movies/repositories/i_tmdb_repository.dart';
-import 'package:flutter_great_movies/repositories/tmdb_repository.dart';
+import 'package:grekino/models/great_movie_model.dart';
+import 'package:grekino/repositories/great_movies_repository.dart';
+import 'package:grekino/repositories/i_great_movies_repository.dart';
+import 'package:grekino/repositories/i_tmdb_repository.dart';
+import 'package:grekino/repositories/tmdb_repository.dart';
 import 'package:get_it/get_it.dart';
 
 final locator = GetIt.I;

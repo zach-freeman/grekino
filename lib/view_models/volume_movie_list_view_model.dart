@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_great_movies/locator.dart';
-import 'package:flutter_great_movies/models/great_movie_model.dart';
-import 'package:flutter_great_movies/repositories/i_great_movies_repository.dart';
+import 'package:grekino/locator.dart';
+import 'package:grekino/models/great_movie_model.dart';
+import 'package:grekino/repositories/i_great_movies_repository.dart';
 
 class VolumeMovieListViewModel extends ChangeNotifier {
   bool _loading = false;

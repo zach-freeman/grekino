@@ -1,6 +1,5 @@
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_great_movies/repositories/i_great_movies_repository.dart';
+import 'package:grekino/repositories/i_great_movies_repository.dart';
 import '../locator.dart';
 import 'package:intl/intl.dart';
 
@@ -13,9 +12,11 @@ class MovieAddViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateMovie(String id, DateTime dateTime, double rating, String review) async {
+  updateMovie(
+      String id, DateTime dateTime, double rating, String review) async {
     setLoading(true);
-    IGreatMoviesRepository greatMoviesRepository = locator<IGreatMoviesRepository>();
+    IGreatMoviesRepository greatMoviesRepository =
+        locator<IGreatMoviesRepository>();
     String date = DateFormat('yyyy-MM-dd').format(dateTime);
     await greatMoviesRepository.updateMovieWatchInfo(id, date, rating, review);
     setLoading(false);

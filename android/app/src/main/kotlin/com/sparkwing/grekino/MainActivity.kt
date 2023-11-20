@@ -1,4 +1,4 @@
-package com.example.flutter_great_movies
+package com.sparkwing.grekino
 
 import io.flutter.embedding.android.FlutterActivity
 

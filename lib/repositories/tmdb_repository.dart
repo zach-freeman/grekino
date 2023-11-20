@@ -1,8 +1,7 @@
-
-import 'package:flutter_great_movies/models/tmdb_configuration_model.dart';
-import 'package:flutter_great_movies/models/tmdb_results_model.dart';
-import 'package:flutter_great_movies/repositories/i_tmdb_repository.dart';
-import 'package:flutter_great_movies/services/api_service.dart';
+import 'package:grekino/models/tmdb_configuration_model.dart';
+import 'package:grekino/models/tmdb_results_model.dart';
+import 'package:grekino/repositories/i_tmdb_repository.dart';
+import 'package:grekino/services/api_service.dart';
 
 class TmdbRepository extends ITmdbRepository {
   String? baseImageUrl;

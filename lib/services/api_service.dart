@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:flutter_great_movies/api_keys.dart';
-import 'package:flutter_great_movies/models/tmdb_configuration_model.dart';
-import 'package:flutter_great_movies/models/tmdb_results_model.dart';
+import 'package:grekino/api_keys.dart';
+import 'package:grekino/models/tmdb_configuration_model.dart';
+import 'package:grekino/models/tmdb_results_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_great_movies/constants.dart';
+import 'package:grekino/constants.dart';
 
 class ApiService {
   Future<TmdbResults?> getTmdbMovieResults(String imdbId) async {
