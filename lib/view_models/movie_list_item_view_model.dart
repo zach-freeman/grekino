@@ -58,7 +58,9 @@ class MovieListItemViewModel extends ChangeNotifier {
     fsGreatMovie.director = greatMovie.director;
     fsGreatMovie.year = greatMovie.year;
     fsGreatMovie.volume = greatMovie.volume;
-    fsGreatMovie.genres = greatMovie.genres.split(",");
+    var genreString = greatMovie.genres.replaceAll('[', '').replaceAll(']', '').replaceAll('"', '');
+    var genreList = genreString.split(',');
+    fsGreatMovie.genres = genreList.map((string) => string.trim()).toList();
     fsGreatMovie.imdbId = greatMovie.imdbId;
     fsGreatMovie.posterImageUrl = greatMovie.posterImageUrl;
     fsGreatMovie.dateWatched = greatMovie.dateWatched;

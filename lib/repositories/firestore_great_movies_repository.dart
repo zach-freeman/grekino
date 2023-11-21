@@ -14,8 +14,8 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
   }
 
   @override
-  Future<DocumentReference<Object?>> addGreatMovie(FirestoreGreatMovie firestoreGreatMovie) {
-    return collection.add(firestoreGreatMovie);
+  Future<void> addGreatMovie(FirestoreGreatMovie firestoreGreatMovie) {
+    return collection.doc(firestoreGreatMovie.id).set(firestoreGreatMovie.toJson());
   }
 
   @override
