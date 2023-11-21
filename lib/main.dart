@@ -7,9 +7,14 @@ import 'package:grekino/views/volume_movie_list.dart';
 import 'package:provider/provider.dart';
 
 import 'delegates/movie_search_delegate.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   setupLocator();
   runApp(MultiProvider(
     providers: [
@@ -51,7 +56,7 @@ class GreatMovieApp extends StatelessWidget {
               ],
             ),
             title: const Text('Grekino'),
-            backgroundColor: Colors.blue.shade300,
+            backgroundColor: Colors.blue.shade500,
             actions: [
               Padding(
                   padding: const EdgeInsets.only(right: 25),

@@ -10,7 +10,7 @@ import '../views/movie_list_item.dart';
 
 class MovieSearchDelegate extends SearchDelegate {
   late Completer _completer = Completer();
-  late final Debouncer _debouncer = Debouncer(Duration(milliseconds: 300),
+  late final Debouncer _debouncer = Debouncer(const Duration(milliseconds: 300),
       initialValue: '', onChanged: (value) {
     _completer.complete(searchChanged(value)); // look up the data
   });

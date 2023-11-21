@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759334845954",
+    "project_id": "grekino-d8ac5",
+    "storage_bucket": "grekino-d8ac5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759334845954:android:19cbd9bb6f2ce40c2b311b",
+        "android_client_info": {
+          "package_name": "com.sparkwing.grekino"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxf8X5UsSCUurXYNkz4pxaQXcAWPiGxLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

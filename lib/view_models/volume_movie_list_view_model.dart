@@ -26,4 +26,5 @@ class VolumeMovieListViewModel extends ChangeNotifier {
     setGreatMovieList(greatMovieList);
     setLoading(false);
   }
+
 }

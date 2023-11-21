@@ -86,6 +86,7 @@ class _MovieListItemState extends State<MovieListItem> {
         ],
       ),
       _watchInfo(),
+      _addToFirestoreButton(movieListItemViewModel)
     ]);
   }
 
@@ -125,6 +126,12 @@ class _MovieListItemState extends State<MovieListItem> {
       );
     }
     return Container();
+  }
+
+  Widget _addToFirestoreButton(MovieListItemViewModel movieListItemViewModel) {
+    return TextButton(
+      child: const Text("Add To Firestore"),
+    onPressed: () { movieListItemViewModel.addGreatMovieToFirestore(widget.greatMovie); },);
   }
 
   Widget _getWatchFab(MovieListItemViewModel movieListItemViewModel) {
