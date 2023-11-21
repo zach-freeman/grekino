@@ -14,6 +14,11 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
   }
 
   @override
+  Stream<QuerySnapshot> getStreamForVolume(int volume) {
+    return collection.where('Volume', isEqualTo: volume).snapshots();
+  }
+
+  @override
   Future<void> addGreatMovie(FirestoreGreatMovie firestoreGreatMovie) {
     return collection.doc(firestoreGreatMovie.id).set(firestoreGreatMovie.toJson());
   }
@@ -22,5 +27,5 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
   void updateGreatMovie(FirestoreGreatMovie firestoreGreatMovie) async {
     await collection.doc(firestoreGreatMovie.id).update(firestoreGreatMovie.toJson());
   }
-  
+
 }

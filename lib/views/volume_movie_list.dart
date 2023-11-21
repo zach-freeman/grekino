@@ -1,4 +1,8 @@
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/volume_movie_list_view_model.dart';
 import 'package:grekino/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
@@ -51,32 +55,44 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
         child: CircularProgressIndicator(),
       ));
     }
-    return ListView.builder(
-        key: PageStorageKey<String>('page${volume.toString()}'),
-        itemCount: volumeMovieListViewModel.greatMovies.length,
-        padding: const EdgeInsets.all(8),
-        itemBuilder: (context, index) {
-          final greatMovie = volumeMovieListViewModel.greatMovies[index];
-          return ListTile(
-            title: Text(greatMovie.name),
-            trailing: const Icon(Icons.visibility),
-            iconColor: greatMovie.isWatched ? Colors.blue : Colors.grey,
-            subtitle: Text(greatMovie.director),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MovieListItem(
-                          pageTitle: title,
-                          greatMovie: greatMovie))).then((value) => {
-                    volumeMovieListViewModel
-                        .getGreatMovies(widget.volume)
-                        .then((result) {
-                      setState(() {});
-                    })
-                  });
-            },
-          );
-        });
+    return StreamBuilder<QuerySnapshot>(
+      stream: volumeMovieListViewModel.streamGreatMovies,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.requireData.docs;
+          return ListView.builder(
+              key: PageStorageKey<String>('page${volume.toString()}'),
+              itemCount: snapshot.requireData.docs.length,
+              padding: const EdgeInsets.all(8),
+              itemBuilder: (context, index) {
+                final greatMovie = snapshot.requireData.docs[index];
+                return ListTile(
+                  title: Text(greatMovie['Name']),
+                  trailing: const Icon(Icons.visibility),
+                  iconColor: greatMovie['IsWatched'] ? Colors.blue : Colors.grey,
+                  subtitle: Text(greatMovie['Director']),
+                  onTap: () {
+                    /*Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MovieListItem(
+                                    pageTitle: title,
+                                    greatMovie: greatMovie))).then((value) =>
+                    {
+                      volumeMovieListViewModel
+                          .getGreatMovies(widget.volume)
+                          .then((result) {
+                        setState(() {});
+                      })
+                    });*/
+                  },
+                );
+              });
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      }
+    );
   }
 }
