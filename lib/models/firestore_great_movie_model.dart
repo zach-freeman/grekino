@@ -14,7 +14,7 @@ class FirestoreGreatMovie {
   bool? isCriterion;
   bool? isWatched;
   String? dateWatched;
-  int? userStarRating;
+  double? userStarRating;
   String? userReview;
 
   FirestoreGreatMovie(

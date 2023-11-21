@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/volume_movie_list_view_model.dart';
 import 'package:grekino/views/movie_list_item.dart';
@@ -65,12 +66,12 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
               itemCount: snapshot.requireData.docs.length,
               padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {
-                final greatMovie = snapshot.requireData.docs[index];
+                FirestoreGreatMovie greatMovie = FirestoreGreatMovie.fromSnapshot(snapshot.requireData.docs[index]);
                 return ListTile(
-                  title: Text(greatMovie['Name']),
+                  title: Text(greatMovie.name ?? ""),
                   trailing: const Icon(Icons.visibility),
-                  iconColor: greatMovie['IsWatched'] ? Colors.blue : Colors.grey,
-                  subtitle: Text(greatMovie['Director']),
+                  iconColor: greatMovie.isWatched ?? false ? Colors.blue : Colors.grey,
+                  subtitle: Text(greatMovie.director ?? ""),
                   onTap: () {
                     /*Navigator.push(
                         context,

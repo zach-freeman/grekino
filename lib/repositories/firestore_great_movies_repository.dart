@@ -15,7 +15,7 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
 
   @override
   Stream<QuerySnapshot> getStreamForVolume(int volume) {
-    return collection.where('Volume', isEqualTo: volume).snapshots();
+    return collection.where('Volume', isEqualTo: volume).orderBy('Name').snapshots();
   }
 
   @override
