@@ -57,20 +57,22 @@ class MovieSearchDelegate extends SearchDelegate {
                       subtitle: Text(greatMovie.director),
                       onTap: () async {
                         final fsGreatMovie = await getMovie(greatMovie.imdbId);
-                        if (fsGreatMovie != null && context.mounted) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return MovieListItem(
-                                        pageTitle:
-                                        "Volume ${greatMovie.volume
-                                            .toString()}",
-                                        greatMovie: fsGreatMovie
-                                    );
-                                  }
-                              )
-                          ); // navigator
+                        if (fsGreatMovie != null) {
+                          if (context.mounted) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) {
+                                      return MovieListItem(
+                                          pageTitle:
+                                          "Volume ${greatMovie.volume
+                                              .toString()}",
+                                          greatMovie: fsGreatMovie
+                                      );
+                                    }
+                                )
+                            ); // navigator
+                          }
                         } else {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -119,20 +121,22 @@ class MovieSearchDelegate extends SearchDelegate {
                       subtitle: Text(greatMovie.director),
                       onTap: () async {
                         final fsGreatMovie = await getMovie(greatMovie.imdbId);
-                        if (fsGreatMovie != null && context.mounted) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return MovieListItem(
-                                        pageTitle:
-                                        "Volume ${greatMovie.volume
-                                            .toString()}",
-                                        greatMovie: fsGreatMovie
-                                    );
-                                  }
-                              )
-                          ); // navigator
+                        if (fsGreatMovie != null) {
+                          if (context.mounted) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) {
+                                      return MovieListItem(
+                                          pageTitle:
+                                          "Volume ${greatMovie.volume
+                                              .toString()}",
+                                          greatMovie: fsGreatMovie
+                                      );
+                                    }
+                                )
+                            ); // navigator
+                          }
                         } else {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(

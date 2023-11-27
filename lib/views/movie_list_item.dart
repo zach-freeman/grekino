@@ -48,7 +48,7 @@ class _MovieListItemState extends State<MovieListItem> {
   Widget _getBody(
       BuildContext context, MovieListItemViewModel movieListItemViewModel) {
     if (movieListItemViewModel.loading) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
     }
     return Column(children: [
       Container(
