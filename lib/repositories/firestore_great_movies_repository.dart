@@ -33,7 +33,7 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
   }
 
   @override
-  void updateGreatMovie(FirestoreGreatMovie firestoreGreatMovie) async {
+  Future<void> updateGreatMovie(FirestoreGreatMovie firestoreGreatMovie) async {
     await collection.doc(firestoreGreatMovie.id).update(firestoreGreatMovie.toJson());
   }
 

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:grekino/repositories/i_great_movies_repository.dart';
 import 'package:grekino/repositories/i_tmdb_repository.dart';
 
 import '../locator.dart';
 import '../models/firestore_great_movie_model.dart';
-import '../models/great_movie_model.dart';
 import '../models/tmdb_results_model.dart';
 import '../repositories/i_firestore_great_movies_repository.dart';
 
@@ -48,7 +46,7 @@ class MovieListItemViewModel extends ChangeNotifier {
       greatMovie.description = movieResult.overview;
       setPosterImageUrl(greatMovie.posterImageUrl);
       setDescription(greatMovie.description);
-      fsGreatMoviesRepo.updateGreatMovie(greatMovie);
+      await fsGreatMoviesRepo.updateGreatMovie(greatMovie);
     } else {
       setPosterImageUrl(greatMovie.posterImageUrl);
       setDescription(greatMovie.description);

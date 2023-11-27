@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:grekino/repositories/i_great_movies_repository.dart';
+import 'package:grekino/models/firestore_great_movie_model.dart';
 import '../locator.dart';
 import 'package:intl/intl.dart';
+
+import '../repositories/i_firestore_great_movies_repository.dart';
 
 class MovieAddViewModel extends ChangeNotifier {
   bool _loading = false;
@@ -12,13 +14,16 @@ class MovieAddViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateMovie(
-      String id, DateTime dateTime, double rating, String review) async {
+  updateMovie(FirestoreGreatMovie greatMovie, DateTime dateTime, double rating,
+      String review) async {
     setLoading(true);
-    IGreatMoviesRepository greatMoviesRepository =
-        locator<IGreatMoviesRepository>();
-    String date = DateFormat('yyyy-MM-dd').format(dateTime);
-    await greatMoviesRepository.updateMovieWatchInfo(id, date, rating, review);
+    IFirestoreGreatMoviesRepository fsGreatMoviesRepo =
+        locator<IFirestoreGreatMoviesRepository>();
+    greatMovie.dateWatched = DateFormat('yyyy-MM-dd').format(dateTime);
+    greatMovie.userStarRating = rating;
+    greatMovie.userReview = review;
+    greatMovie.isWatched = true;
+    await fsGreatMoviesRepo.updateGreatMovie(greatMovie);
     setLoading(false);
   }
 }

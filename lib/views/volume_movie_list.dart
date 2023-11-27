@@ -3,12 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grekino/models/firestore_great_movie_model.dart';
-import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/volume_movie_list_view_model.dart';
 import 'package:grekino/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
 
-import '../delegates/movie_search_delegate.dart';
 
 class VolumeMovieList extends StatefulWidget {
   final int volume;
@@ -60,7 +58,6 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
       stream: volumeMovieListViewModel.streamGreatMovies,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final data = snapshot.requireData.docs;
           return ListView.builder(
               key: PageStorageKey<String>('page${volume.toString()}'),
               itemCount: snapshot.requireData.docs.length,
@@ -68,10 +65,10 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
               itemBuilder: (context, index) {
                 FirestoreGreatMovie greatMovie = FirestoreGreatMovie.fromSnapshot(snapshot.requireData.docs[index]);
                 return ListTile(
-                  title: Text(greatMovie.name ?? ""),
+                  title: Text(greatMovie.name),
                   trailing: const Icon(Icons.visibility),
-                  iconColor: greatMovie.isWatched ?? false ? Colors.blue : Colors.grey,
-                  subtitle: Text(greatMovie.director ?? ""),
+                  iconColor: greatMovie.isWatched ? Colors.blue : Colors.grey,
+                  subtitle: Text(greatMovie.director),
                   onTap: () {
                     Navigator.push(
                         context,

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grekino/models/firestore_great_movie_model.dart';
-import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/movie_add_view_model.dart';
 import 'package:grekino/views/movie_add_review_view.dart';
 import 'package:intl/intl.dart';
@@ -81,7 +80,7 @@ class _MovieAddViewState extends State<MovieAddView> {
           DateFormat("yyyy-MM-dd").parse(widget.greatMovie.dateWatched);
       selectedDate = dateWatched;
     }
-    selectedRating = widget.greatMovie.userStarRating as double;
+    selectedRating = widget.greatMovie.userStarRating;
     userReview = widget.greatMovie.userReview.isNotEmpty
         ? widget.greatMovie.userReview
         : "Add Review...";
@@ -109,7 +108,7 @@ class _MovieAddViewState extends State<MovieAddView> {
             padding: const EdgeInsets.only(right: 25),
             child: TextButton(
                 onPressed: () {
-                  movieAddViewModel.updateMovie(widget.greatMovie.id,
+                  movieAddViewModel.updateMovie(widget.greatMovie,
                       selectedDate, selectedRating, userReview);
                   Navigator.pop(context);
                 },
