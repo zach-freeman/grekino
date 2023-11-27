@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/movie_add_view_model.dart';
 import 'package:grekino/views/movie_add_review_view.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 typedef StringCallback = void Function(String review);
 
 class MovieAddView extends StatefulWidget {
-  final GreatMovies greatMovie;
+  final FirestoreGreatMovie greatMovie;
   final String posterImageUrl;
 
   const MovieAddView(
@@ -80,7 +81,7 @@ class _MovieAddViewState extends State<MovieAddView> {
           DateFormat("yyyy-MM-dd").parse(widget.greatMovie.dateWatched);
       selectedDate = dateWatched;
     }
-    selectedRating = widget.greatMovie.userStarRating;
+    selectedRating = widget.greatMovie.userStarRating as double;
     userReview = widget.greatMovie.userReview.isNotEmpty
         ? widget.greatMovie.userReview
         : "Add Review...";
@@ -128,7 +129,7 @@ class _MovieAddViewState extends State<MovieAddView> {
     );
   }
 
-  Widget movieInfo(GreatMovies greatMovie, String posterImageUrl) {
+  Widget movieInfo(FirestoreGreatMovie greatMovie, String posterImageUrl) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: outerHorizontalPadding),
       child: ColoredBox(

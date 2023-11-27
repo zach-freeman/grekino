@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/models/great_movie_model.dart';
+import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/view_models/movie_list_item_view_model.dart';
 import 'package:grekino/views/movie_add_view.dart';
 import 'package:provider/provider.dart';
 
 class MovieListItem extends StatefulWidget {
   final String pageTitle;
-  final GreatMovies greatMovie;
+  final FirestoreGreatMovie greatMovie;
 
   const MovieListItem(
       {super.key, required this.pageTitle, required this.greatMovie});
@@ -85,8 +85,7 @@ class _MovieListItemState extends State<MovieListItem> {
                   child: Text(movieListItemViewModel.description)))
         ],
       ),
-      _watchInfo(),
-      _addToFirestoreButton(movieListItemViewModel)
+      _watchInfo()
     ]);
   }
 
@@ -126,12 +125,6 @@ class _MovieListItemState extends State<MovieListItem> {
       );
     }
     return Container();
-  }
-
-  Widget _addToFirestoreButton(MovieListItemViewModel movieListItemViewModel) {
-    return TextButton(
-      child: const Text("Add To Firestore"),
-    onPressed: () { movieListItemViewModel.addGreatMovieToFirestore(widget.greatMovie); },);
   }
 
   Widget _getWatchFab(MovieListItemViewModel movieListItemViewModel) {

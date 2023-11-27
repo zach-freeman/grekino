@@ -7,6 +7,7 @@ import '../models/firestore_great_movie_model.dart';
 abstract class IFirestoreGreatMoviesRepository {
   Stream<QuerySnapshot> getStream();
   Stream<QuerySnapshot> getStreamForVolume(int volume);
+  Future<FirestoreGreatMovie?> getMovieForId(String id);
   Future<void> addGreatMovie(FirestoreGreatMovie firestoreGreatMovie);
   void updateGreatMovie(FirestoreGreatMovie firestoreGreatMovie);
 }

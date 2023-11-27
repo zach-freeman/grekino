@@ -19,6 +19,15 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
   }
 
   @override
+  Future<FirestoreGreatMovie?> getMovieForId(String id) async {
+    var document = await collection.doc(id).get();
+    if (document.exists) {
+      return FirestoreGreatMovie.fromSnapshot(document);
+    }
+    return null;
+  }
+
+  @override
   Future<void> addGreatMovie(FirestoreGreatMovie firestoreGreatMovie) {
     return collection.doc(firestoreGreatMovie.id).set(firestoreGreatMovie.toJson());
   }

@@ -73,7 +73,7 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
                   iconColor: greatMovie.isWatched ?? false ? Colors.blue : Colors.grey,
                   subtitle: Text(greatMovie.director ?? ""),
                   onTap: () {
-                    /*Navigator.push(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
@@ -86,7 +86,7 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
                           .then((result) {
                         setState(() {});
                       })
-                    });*/
+                    });
                   },
                 );
               });
