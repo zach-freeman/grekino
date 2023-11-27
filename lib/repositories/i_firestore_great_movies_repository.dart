@@ -6,6 +6,7 @@ abstract class IFirestoreGreatMoviesRepository {
   Stream<QuerySnapshot> getStream();
   Stream<QuerySnapshot> getStreamForVolume(int volume);
   Future<FirestoreGreatMovie?> getMovieForId(String id);
+  Future<FirestoreGreatMovie?> getMovieForImdbId(String imdbId);
   Future<void> addGreatMovie(FirestoreGreatMovie firestoreGreatMovie);
   Future<void> updateGreatMovie(FirestoreGreatMovie firestoreGreatMovie);
 }

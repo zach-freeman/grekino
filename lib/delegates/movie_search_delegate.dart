@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
+import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/repositories/i_great_movies_repository.dart';
 
 import '../locator.dart';
 import '../models/great_movie_model.dart';
+import '../repositories/i_firestore_great_movies_repository.dart';
 import '../views/movie_list_item.dart';
 
 class MovieSearchDelegate extends SearchDelegate {
@@ -48,25 +50,49 @@ class MovieSearchDelegate extends SearchDelegate {
             if (snapshot.connectionState == ConnectionState.done) {
               return ListView.builder(
                   itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) => ListTile(
-                        title: Text(snapshot.data![index].name),
-                        subtitle: Text(snapshot.data![index].director),
-                        onTap: () {
+                  itemBuilder: (context, index) {
+                    final greatMovie = snapshot.requireData[index];
+                    return ListTile(
+                      title: Text(greatMovie.name),
+                      subtitle: Text(greatMovie.director),
+                      onTap: () async {
+                        final fsGreatMovie = await getMovie(greatMovie.imdbId);
+                        if (fsGreatMovie != null && context.mounted) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MovieListItem(
-                                      pageTitle:
-                                          "Volume ${snapshot.data![index].volume.toString()}",
-                                      greatMovie: snapshot.data![index])));
-                        },
-                      ));
+                                  builder: (context) {
+                                    return MovieListItem(
+                                        pageTitle:
+                                        "Volume ${greatMovie.volume
+                                            .toString()}",
+                                        greatMovie: fsGreatMovie
+                                    );
+                                  }
+                              )
+                          ); // navigator
+                        } else {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Can't find movie")));
+                          }
+                        }
+                      },
+                    );
+                  });
             } else {
               return const Center(child: CircularProgressIndicator());
             }
           });
     }
     return Container();
+  }
+
+  Future<FirestoreGreatMovie?> getMovie(String imdbId) {
+    IFirestoreGreatMoviesRepository fsGreatMoviesRepo =
+    locator<IFirestoreGreatMoviesRepository>();
+    return fsGreatMoviesRepo.getMovieForImdbId(imdbId);
   }
 
   Future<List<GreatMovies>> searchChanged(String query) async {
@@ -86,19 +112,37 @@ class MovieSearchDelegate extends SearchDelegate {
             if (snapshot.connectionState == ConnectionState.done) {
               return ListView.builder(
                   itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) => ListTile(
-                        title: Text(snapshot.data![index].name),
-                        subtitle: Text(snapshot.data![index].director),
-                        onTap: () {
+                  itemBuilder: (context, index) {
+                    final greatMovie = snapshot.requireData[index];
+                    return ListTile(
+                      title: Text(greatMovie.name),
+                      subtitle: Text(greatMovie.director),
+                      onTap: () async {
+                        final fsGreatMovie = await getMovie(greatMovie.imdbId);
+                        if (fsGreatMovie != null && context.mounted) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MovieListItem(
-                                      pageTitle:
-                                          "Volume ${snapshot.data![index].volume.toString()}",
-                                      greatMovie: snapshot.data![index])));
-                        },
-                      ));
+                                  builder: (context) {
+                                    return MovieListItem(
+                                        pageTitle:
+                                        "Volume ${greatMovie.volume
+                                            .toString()}",
+                                        greatMovie: fsGreatMovie
+                                    );
+                                  }
+                              )
+                          ); // navigator
+                        } else {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Can't find movie")));
+                          }
+                        }
+                      },
+                    );
+                  });
             } else {
               return const Center(child: CircularProgressIndicator());
             }
