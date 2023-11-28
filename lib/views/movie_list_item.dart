@@ -21,9 +21,13 @@ class _MovieListItemState extends State<MovieListItem> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<MovieListItemViewModel>()
-        .getMovieInfo(widget.greatMovie.id, widget.greatMovie.imdbId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context
+            .read<MovieListItemViewModel>()
+            .getMovieInfo(widget.greatMovie.id, widget.greatMovie.imdbId);
+      }
+    });
   }
 
   @override
@@ -48,7 +52,7 @@ class _MovieListItemState extends State<MovieListItem> {
   Widget _getBody(
       BuildContext context, MovieListItemViewModel movieListItemViewModel) {
     if (movieListItemViewModel.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return  const Center(child: CircularProgressIndicator());
     }
     return Column(children: [
       Container(

@@ -21,7 +21,12 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
   @override
   void initState() {
     super.initState();
-    context.read<VolumeMovieListViewModel>().getGreatMovies(widget.volume);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<VolumeMovieListViewModel>().getGreatMovies(widget.volume);
+      }
+    });
+
   }
 
   @override
