@@ -52,7 +52,7 @@ class _MovieListItemState extends State<MovieListItem> {
   Widget _getBody(
       BuildContext context, MovieListItemViewModel movieListItemViewModel) {
     if (movieListItemViewModel.loading) {
-      return  const Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
     return Column(children: [
       Container(
@@ -124,11 +124,107 @@ class _MovieListItemState extends State<MovieListItem> {
                         color: widget.greatMovie.userStarRating > 3.0
                             ? Colors.green.shade400
                             : Colors.grey.shade100),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.more_horiz, color: Colors.black54),
+                      highlightColor: Colors.green,
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return _getBottomSheet();
+                          },
+                        );
+                      },
+                    )
                   ],
                 ))),
       );
     }
     return Container();
+  }
+
+  Widget _getBottomSheet() {
+    return Container(
+      height: 450,
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: const BorderRadius.all(Radius.circular(20))),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(widget.greatMovie.name,
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center),
+            Text(widget.greatMovie.year.toString(),
+                textAlign: TextAlign.center),
+            const Divider(),
+            Icon(
+              Icons.remove_red_eye,
+              color: Colors.green.shade400,
+              size: 55,
+            ),
+            const Text('Watched',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center),
+            const Divider(),
+            const Text('Rated',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.star,
+                    color: widget.greatMovie.userStarRating > 0.0
+                        ? Colors.green.shade400
+                        : Colors.grey),
+                Icon(Icons.star,
+                    color: widget.greatMovie.userStarRating > 1.0
+                        ? Colors.green.shade400
+                        : Colors.grey),
+                Icon(Icons.star,
+                    color: widget.greatMovie.userStarRating > 2.0
+                        ? Colors.green.shade400
+                        : Colors.grey),
+                Icon(Icons.star,
+                    color: widget.greatMovie.userStarRating > 3.0
+                        ? Colors.green.shade400
+                        : Colors.grey),
+              ],
+            ),
+            const Divider(),
+            TextButton(
+                onPressed: () {},
+                child: const Text('Show your activity',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal))),
+            const Divider(),
+            ElevatedButton(
+              child: const Text('Done',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal)),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _getWatchFab(MovieListItemViewModel movieListItemViewModel) {

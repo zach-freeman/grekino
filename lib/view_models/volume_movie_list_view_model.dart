@@ -6,8 +6,8 @@ import 'package:grekino/repositories/i_firestore_great_movies_repository.dart';
 class VolumeMovieListViewModel extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
-  late Stream<QuerySnapshot> _streamGreatMovies;
-  Stream<QuerySnapshot> get streamGreatMovies => _streamGreatMovies;
+  Stream<QuerySnapshot>? _streamGreatMovies;
+  Stream<QuerySnapshot>? get streamGreatMovies => _streamGreatMovies;
 
   setLoading(bool loading) async {
     _loading = loading;
