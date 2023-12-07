@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grekino/locator.dart';
 import 'package:grekino/view_models/movie_add_view_model.dart';
+import 'package:grekino/view_models/movie_diary_entry_view_model.dart';
 import 'package:grekino/view_models/volume_movie_list_view_model.dart';
 import 'package:grekino/view_models/movie_list_item_view_model.dart';
 import 'package:grekino/views/volume_movie_list.dart';
@@ -21,6 +22,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => VolumeMovieListViewModel()),
       ChangeNotifierProvider(create: (_) => MovieListItemViewModel()),
       ChangeNotifierProvider(create: (_) => MovieAddViewModel()),
+      ChangeNotifierProvider(create: (_) => MovieDiaryEntryViewModel())
     ],
     child: MaterialApp(
         home: GreatMovieApp(),

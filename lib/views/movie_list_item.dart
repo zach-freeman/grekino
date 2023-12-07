@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/view_models/movie_list_item_view_model.dart';
 import 'package:grekino/views/movie_add_view.dart';
+import 'package:grekino/views/movie_diary_entry_view.dart';
 import 'package:provider/provider.dart';
 
 class MovieListItem extends StatefulWidget {
@@ -206,7 +207,14 @@ class _MovieListItemState extends State<MovieListItem> {
             ),
             const Divider(),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                      MaterialPageRoute(
+                      builder: (context) =>
+                          MovieDiaryEntryView(greatMovie: widget.greatMovie)));
+                },
                 child: const Text('Show your activity',
                     style: TextStyle(
                         color: Colors.black,
