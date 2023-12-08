@@ -7,6 +7,8 @@ import 'package:grekino/views/movie_add_review_view.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../constants.dart';
+
 typedef StringCallback = void Function(String review);
 
 class MovieAddView extends StatefulWidget {
@@ -75,7 +77,7 @@ class _MovieAddViewState extends State<MovieAddView> {
   @override
   void initState() {
     super.initState();
-    if (!widget.greatMovie.dateWatched.contains('1990-07-07')) {
+    if (!widget.greatMovie.dateWatched.contains(Constants.defaultDateWatched)) {
       DateTime dateWatched =
           DateFormat("yyyy-MM-dd").parse(widget.greatMovie.dateWatched);
       selectedDate = dateWatched;

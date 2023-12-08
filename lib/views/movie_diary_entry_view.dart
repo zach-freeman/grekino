@@ -32,15 +32,29 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
     final movieDiaryEntryViewModel = context.watch<MovieDiaryEntryViewModel>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Diary Entry'),
+        title: const Text('Watch Entry'),
         centerTitle: true,
         leading: BackButton(
           color: Colors.black,
           onPressed: () {
             // do your navigate here
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
         ),
+        actions: [
+          Padding(
+              padding: const EdgeInsets.only(right: 25),
+              child: IconButton(
+                icon: const Icon(Icons.more_horiz_outlined),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return _getMoreBottomSheet(movieDiaryEntryViewModel);
+                      });
+                },
+              ))
+        ],
       ),
       body: _getBody(context, movieDiaryEntryViewModel),
     );
@@ -64,13 +78,15 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
                         fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 7),
                 Text("${widget.greatMovie.year}",
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 7),
                 _ratingStars(),
                 const SizedBox(height: 7),
                 Text(
                     'Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched))}',
-                    style: const TextStyle(fontSize: 15, color: Colors.black54)),
+                    style:
+                        const TextStyle(fontSize: 15, color: Colors.black54)),
               ],
             ),
             Column(
@@ -114,9 +130,9 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
     );
   }
 
-  Widget _getBottomSheet() {
+  Widget _getMoreBottomSheet(MovieDiaryEntryViewModel viewModel) {
     return Container(
-      height: 450,
+      height: 250,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       decoration: BoxDecoration(
           color: Colors.grey.shade100,
@@ -131,57 +147,30 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center),
-            Text(widget.greatMovie.year.toString(),
-                textAlign: TextAlign.center),
-            const Divider(),
-            Icon(
-              Icons.remove_red_eye,
-              color: Colors.green.shade400,
-              size: 55,
-            ),
-            const Text('Watched',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal),
-                textAlign: TextAlign.center),
-            const Divider(),
-            const Text('Rated',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal),
-                textAlign: TextAlign.center),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.star,
-                    color: widget.greatMovie.userStarRating > 0.0
-                        ? Colors.green.shade400
-                        : Colors.grey),
-                Icon(Icons.star,
-                    color: widget.greatMovie.userStarRating > 1.0
-                        ? Colors.green.shade400
-                        : Colors.grey),
-                Icon(Icons.star,
-                    color: widget.greatMovie.userStarRating > 2.0
-                        ? Colors.green.shade400
-                        : Colors.grey),
-                Icon(Icons.star,
-                    color: widget.greatMovie.userStarRating > 3.0
-                        ? Colors.green.shade400
-                        : Colors.grey),
-              ],
-            ),
+            Text('Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched))}', textAlign: TextAlign.center),
             const Divider(),
             TextButton(
-                onPressed: () {},
-                child: const Text('Show your activity',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal))),
+                onPressed: () {
+                  Navigator.pop(context);
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return _confirmDeleteBottomSheet(viewModel);
+                      });
+                },
+                child: const Text('Delete',
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center)),
+            const Divider(),
+            const Text('Edit',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center),
             const Divider(),
             ElevatedButton(
               child: const Text('Done',
@@ -194,6 +183,27 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _confirmDeleteBottomSheet(MovieDiaryEntryViewModel viewModel) {
+    return Wrap(
+      children: <Widget>[
+        ListTile(
+          title: const Text('Delete Watch Entry'),
+          textColor: Colors.red,
+          onTap: () {
+            viewModel.deleteMovieWatchEntry(widget.greatMovie.id);
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          title: const Text('Cancel'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        )
+      ],
     );
   }
 }

@@ -3,3 +3,7 @@ class ApiConstants {
   static String findEndpoint = '/find';
   static String configurationEndpoint = "/configuration";
 }
+
+class Constants {
+  static String defaultDateWatched = "1990-07-07";
+}

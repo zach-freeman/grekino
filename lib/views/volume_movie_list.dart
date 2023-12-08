@@ -34,6 +34,7 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
     final volumeMovieListViewModel = context.watch<VolumeMovieListViewModel>();
     var title = 'Volume ${widget.volume}';
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: title,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),

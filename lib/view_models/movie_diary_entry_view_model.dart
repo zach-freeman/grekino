@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:grekino/constants.dart';
 import 'package:grekino/repositories/i_tmdb_repository.dart';
 
 import '../locator.dart';
@@ -42,6 +43,19 @@ class MovieDiaryEntryViewModel extends ChangeNotifier {
     } else {
       setPosterImageUrl(greatMovie.posterImageUrl);
     }
+    setLoading(false);
+  }
+
+  deleteMovieWatchEntry(String id) async {
+    setLoading(true);
+    IFirestoreGreatMoviesRepository fsGreatMoviesRepo =
+    locator<IFirestoreGreatMoviesRepository>();
+    FirestoreGreatMovie? greatMovie = await fsGreatMoviesRepo.getMovieForId(id);
+    greatMovie?.dateWatched = Constants.defaultDateWatched;
+    greatMovie?.userStarRating = 0.0;
+    greatMovie?.userReview = "";
+    greatMovie?.isWatched = false;
+    await fsGreatMoviesRepo.updateGreatMovie(greatMovie!);
     setLoading(false);
   }
 }
