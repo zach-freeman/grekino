@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/view_models/movie_diary_entry_view_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import 'movie_add_view.dart';
 
 class MovieDiaryEntryView extends StatefulWidget {
   final FirestoreGreatMovie greatMovie;
@@ -147,7 +150,9 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center),
-            Text('Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched))}', textAlign: TextAlign.center),
+            Text(
+                'Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched))}',
+                textAlign: TextAlign.center),
             const Divider(),
             TextButton(
                 onPressed: () {
@@ -158,19 +163,36 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
                         return _confirmDeleteBottomSheet(viewModel);
                       });
                 },
+                style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(50, 30),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                 child: const Text('Delete',
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal),
-                textAlign: TextAlign.center)),
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                    textAlign: TextAlign.center)),
             const Divider(),
-            const Text('Edit',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal),
-                textAlign: TextAlign.center),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => MovieAddView(
+                          greatMovie: widget.greatMovie,
+                          posterImageUrl: widget.greatMovie.posterImageUrl)));
+                },
+                style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(50, 30),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                child: const Text('Edit',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                    textAlign: TextAlign.center)),
             const Divider(),
             ElevatedButton(
               child: const Text('Done',
@@ -190,15 +212,15 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
     return Wrap(
       children: <Widget>[
         ListTile(
-          title: const Text('Delete Watch Entry'),
+          title: const Text('Delete Watch Entry', textAlign: TextAlign.center,),
           textColor: Colors.red,
           onTap: () {
             viewModel.deleteMovieWatchEntry(widget.greatMovie.id);
-            Navigator.pop(context);
+            Navigator.of(context).popUntil((route) => route.isFirst);
           },
         ),
         ListTile(
-          title: const Text('Cancel'),
+          title: const Text('Cancel', textAlign: TextAlign.center,),
           onTap: () {
             Navigator.pop(context);
           },

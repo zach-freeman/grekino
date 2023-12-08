@@ -128,6 +128,10 @@ class _MovieListItemState extends State<MovieListItem> {
                     const Spacer(),
                     IconButton(
                       icon: const Icon(Icons.more_horiz, color: Colors.black54),
+                      style: IconButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: const Size(50, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                       highlightColor: Colors.green,
                       onPressed: () {
                         showModalBottomSheet<void>(
