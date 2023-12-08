@@ -1,5 +1,6 @@
 
 
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grekino/views/volume_movie_list.dart';
@@ -34,7 +35,7 @@ class HomeView extends StatelessWidget {
             backgroundColor: Colors.blue.shade500,
             actions: [
               Padding(
-                  padding: const EdgeInsets.only(right: 25),
+                  padding: const EdgeInsets.only(right: 5),
                   child: IconButton(
                     onPressed: () {
                       // method to show the search bar
@@ -44,7 +45,39 @@ class HomeView extends StatelessWidget {
                           delegate: MovieSearchDelegate());
                     },
                     icon: const Icon(Icons.search, color: Colors.yellowAccent),
-                  ))
+                  )),
+              Padding(
+                  padding: const EdgeInsets.only(right: 25),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<ProfileScreen>(
+                          builder: (context) => ProfileScreen(
+                            appBar: AppBar(
+                              title: const Text('User Profile'),
+                            ),
+                            actions: [
+                              SignedOutAction((context) {
+                                Navigator.of(context).pop();
+                              })
+                            ],
+                            children: [
+                              const Divider(),
+                              Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: AspectRatio(
+                                  aspectRatio: 1,
+                                  child: Image.asset('assets/grekino_192x.png'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.account_circle_outlined, color: Colors.yellowAccent),
+                  )),
             ],
           ),
           body: PageStorage(
