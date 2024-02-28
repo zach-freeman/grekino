@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:grekino/models/firestore_great_movie_model.dart';

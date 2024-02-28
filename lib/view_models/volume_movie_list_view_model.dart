@@ -9,6 +9,12 @@ class VolumeMovieListViewModel extends ChangeNotifier {
   Stream<QuerySnapshot>? _streamGreatMovies;
   Stream<QuerySnapshot>? get streamGreatMovies => _streamGreatMovies;
 
+  late IFirestoreGreatMoviesRepository fsGreatMoviesRepo;
+
+  VolumeMovieListViewModel({IFirestoreGreatMoviesRepository? firestoreGreatMoviesRepository}) {
+    fsGreatMoviesRepo = firestoreGreatMoviesRepository ?? locator.get<IFirestoreGreatMoviesRepository>();
+  }
+
   setLoading(bool loading) async {
     _loading = loading;
     notifyListeners();
@@ -20,7 +26,6 @@ class VolumeMovieListViewModel extends ChangeNotifier {
 
   getGreatMovies(int volume) async {
     setLoading(true);
-    IFirestoreGreatMoviesRepository fsGreatMoviesRepo = locator<IFirestoreGreatMoviesRepository>();
     var greatMovieList = fsGreatMoviesRepo.getStreamForVolume(volume);
     setGreatMovieList(greatMovieList);
     setLoading(false);
