@@ -32,15 +32,15 @@ const GreatMovieModelSchema = CollectionSchema(
       name: r'director',
       type: IsarType.string,
     ),
-    r'firestoreId': PropertySchema(
-      id: 3,
-      name: r'firestoreId',
-      type: IsarType.string,
-    ),
     r'genres': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'genres',
       type: IsarType.stringList,
+    ),
+    r'id': PropertySchema(
+      id: 4,
+      name: r'id',
+      type: IsarType.string,
     ),
     r'imdbId': PropertySchema(
       id: 5,
@@ -97,7 +97,7 @@ const GreatMovieModelSchema = CollectionSchema(
   serialize: _greatMovieModelSerialize,
   deserialize: _greatMovieModelDeserialize,
   deserializeProp: _greatMovieModelDeserializeProp,
-  idName: r'id',
+  idName: r'isarId',
   indexes: {},
   links: {},
   embeddedSchemas: {},
@@ -132,12 +132,6 @@ int _greatMovieModelEstimateSize(
     }
   }
   {
-    final value = object.firestoreId;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final list = object.genres;
     if (list != null) {
       bytesCount += 3 + list.length * 3;
@@ -147,6 +141,12 @@ int _greatMovieModelEstimateSize(
           bytesCount += value.length * 3;
         }
       }
+    }
+  }
+  {
+    final value = object.id;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
     }
   }
   {
@@ -185,8 +185,8 @@ void _greatMovieModelSerialize(
   writer.writeString(offsets[0], object.dateWatched);
   writer.writeString(offsets[1], object.description);
   writer.writeString(offsets[2], object.director);
-  writer.writeString(offsets[3], object.firestoreId);
-  writer.writeStringList(offsets[4], object.genres);
+  writer.writeStringList(offsets[3], object.genres);
+  writer.writeString(offsets[4], object.id);
   writer.writeString(offsets[5], object.imdbId);
   writer.writeBool(offsets[6], object.isCriterion);
   writer.writeBool(offsets[7], object.isSynced);
@@ -209,8 +209,8 @@ GreatMovieModel _greatMovieModelDeserialize(
     dateWatched: reader.readStringOrNull(offsets[0]),
     description: reader.readStringOrNull(offsets[1]),
     director: reader.readStringOrNull(offsets[2]),
-    firestoreId: reader.readStringOrNull(offsets[3]),
-    genres: reader.readStringList(offsets[4]),
+    genres: reader.readStringList(offsets[3]),
+    id: reader.readStringOrNull(offsets[4]),
     imdbId: reader.readStringOrNull(offsets[5]),
     isCriterion: reader.readBoolOrNull(offsets[6]),
     isSynced: reader.readBoolOrNull(offsets[7]) ?? true,
@@ -222,7 +222,6 @@ GreatMovieModel _greatMovieModelDeserialize(
     volume: reader.readLongOrNull(offsets[13]),
     year: reader.readLongOrNull(offsets[14]),
   );
-  object.id = id;
   return object;
 }
 
@@ -240,9 +239,9 @@ P _greatMovieModelDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
-    case 4:
       return (reader.readStringList(offset)) as P;
+    case 4:
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
@@ -269,7 +268,7 @@ P _greatMovieModelDeserializeProp<P>(
 }
 
 Id _greatMovieModelGetId(GreatMovieModel object) {
-  return object.id;
+  return object.isarId;
 }
 
 List<IsarLinkBase<dynamic>> _greatMovieModelGetLinks(GreatMovieModel object) {
@@ -277,13 +276,11 @@ List<IsarLinkBase<dynamic>> _greatMovieModelGetLinks(GreatMovieModel object) {
 }
 
 void _greatMovieModelAttach(
-    IsarCollection<dynamic> col, Id id, GreatMovieModel object) {
-  object.id = id;
-}
+    IsarCollection<dynamic> col, Id id, GreatMovieModel object) {}
 
 extension GreatMovieModelQueryWhereSort
     on QueryBuilder<GreatMovieModel, GreatMovieModel, QWhere> {
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhere> anyId() {
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhere> anyIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -292,69 +289,69 @@ extension GreatMovieModelQueryWhereSort
 
 extension GreatMovieModelQueryWhere
     on QueryBuilder<GreatMovieModel, GreatMovieModel, QWhereClause> {
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause> idEqualTo(
-      Id id) {
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause>
+      isarIdEqualTo(Id isarId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
+        lower: isarId,
+        upper: isarId,
       ));
     });
   }
 
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause>
-      idNotEqualTo(Id id) {
+      isarIdNotEqualTo(Id isarId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
             );
       }
     });
   }
 
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause>
-      idGreaterThan(Id id, {bool include = false}) {
+      isarIdGreaterThan(Id isarId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
+        IdWhereClause.greaterThan(lower: isarId, includeLower: include),
       );
     });
   }
 
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause> idLessThan(
-      Id id,
-      {bool include = false}) {
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause>
+      isarIdLessThan(Id isarId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
+        IdWhereClause.lessThan(upper: isarId, includeUpper: include),
       );
     });
   }
 
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterWhereClause>
+      isarIdBetween(
+    Id lowerIsarId,
+    Id upperIsarId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
+        lower: lowerIsarId,
         includeLower: includeLower,
-        upper: upperId,
+        upper: upperIsarId,
         includeUpper: includeUpper,
       ));
     });
@@ -826,160 +823,6 @@ extension GreatMovieModelQueryFilter
   }
 
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'firestoreId',
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'firestoreId',
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'firestoreId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'firestoreId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'firestoreId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'firestoreId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'firestoreId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'firestoreId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'firestoreId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'firestoreId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'firestoreId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      firestoreIdIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'firestoreId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
       genresIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1223,49 +1066,76 @@ extension GreatMovieModelQueryFilter
   }
 
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
-      idEqualTo(Id value) {
+      idIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
       idGreaterThan(
-    Id value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
       idLessThan(
-    Id value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
       idBetween(
-    Id lower,
-    Id upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1274,6 +1144,77 @@ extension GreatMovieModelQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'id',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      idIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'id',
+        value: '',
       ));
     });
   }
@@ -1494,6 +1435,62 @@ extension GreatMovieModelQueryFilter
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isWatched',
         value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      isarIdEqualTo(Id value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      isarIdGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      isarIdLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterFilterCondition>
+      isarIdBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'isarId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -2243,17 +2240,15 @@ extension GreatMovieModelQuerySortBy
     });
   }
 
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy>
-      sortByFirestoreId() {
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy> sortById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'firestoreId', Sort.asc);
+      return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy>
-      sortByFirestoreIdDesc() {
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy> sortByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'firestoreId', Sort.desc);
+      return query.addSortBy(r'id', Sort.desc);
     });
   }
 
@@ -2438,20 +2433,6 @@ extension GreatMovieModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy>
-      thenByFirestoreId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'firestoreId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy>
-      thenByFirestoreIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'firestoreId', Sort.desc);
-    });
-  }
-
   QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -2516,6 +2497,19 @@ extension GreatMovieModelQuerySortThenBy
       thenByIsWatchedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isWatched', Sort.desc);
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy> thenByIsarId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QAfterSortBy>
+      thenByIsarIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarId', Sort.desc);
     });
   }
 
@@ -2624,16 +2618,16 @@ extension GreatMovieModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<GreatMovieModel, GreatMovieModel, QDistinct>
-      distinctByFirestoreId({bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'firestoreId', caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<GreatMovieModel, GreatMovieModel, QDistinct> distinctByGenres() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'genres');
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, GreatMovieModel, QDistinct> distinctById(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'id', caseSensitive: caseSensitive);
     });
   }
 
@@ -2709,9 +2703,9 @@ extension GreatMovieModelQueryWhereDistinct
 
 extension GreatMovieModelQueryProperty
     on QueryBuilder<GreatMovieModel, GreatMovieModel, QQueryProperty> {
-  QueryBuilder<GreatMovieModel, int, QQueryOperations> idProperty() {
+  QueryBuilder<GreatMovieModel, int, QQueryOperations> isarIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addPropertyName(r'isarId');
     });
   }
 
@@ -2735,17 +2729,16 @@ extension GreatMovieModelQueryProperty
     });
   }
 
-  QueryBuilder<GreatMovieModel, String?, QQueryOperations>
-      firestoreIdProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'firestoreId');
-    });
-  }
-
   QueryBuilder<GreatMovieModel, List<String>?, QQueryOperations>
       genresProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'genres');
+    });
+  }
+
+  QueryBuilder<GreatMovieModel, String?, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
     });
   }
 

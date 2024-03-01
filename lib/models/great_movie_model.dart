@@ -1,11 +1,13 @@
 
 import 'package:isar/isar.dart';
+
+import '../utils/great_movie_model_utils.dart';
 part 'great_movie_model.g.dart';
 
 @collection
 class GreatMovieModel {
-  Id id = Isar.autoIncrement;
-  String? firestoreId;
+  String? id;
+  Id get isarId => GreatMovieModelUtils.fastHash(id!);
   String? name;
   String? director;
   int? volume;
@@ -22,7 +24,7 @@ class GreatMovieModel {
   bool isSynced;
 
   GreatMovieModel({
-    this.firestoreId,
+    this.id,
     this.name,
     this.director,
     this.volume,
@@ -40,7 +42,7 @@ class GreatMovieModel {
   });
 
   factory GreatMovieModel.fromJson(json) => GreatMovieModel(
-    firestoreId: json["Id"],
+    id: json["Id"],
     name: json["Name"],
     director: json["Director"],
     volume: json["Volume"],

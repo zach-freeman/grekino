@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/repositories/i_firestore_great_movies_repository.dart';
 import 'package:grekino/utils/great_movie_model_utils.dart';
-import 'package:intl/intl.dart';
 
 class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
   final CollectionReference collection =
@@ -28,8 +29,13 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
         .orderBy('Name')
         .snapshots();
     return snapshots.map((query) => query.docs
-        .map((snapshot) => GreatMovieModel.fromJson(snapshot.data()))
-        .toList());
+        .map((snapshot) {
+      try {
+        return GreatMovieModel.fromJson(snapshot.data());
+      } catch (e) {
+        return GreatMovieModel();
+      }
+    }).toList());
   }
 
   @override
@@ -49,11 +55,11 @@ class FireStoreGreatMovieRepository extends IFirestoreGreatMoviesRepository {
 
   @override
   Future<void> addGreatMovie(GreatMovieModel greatMovie) {
-    return collection.doc(greatMovie.firestoreId).set(greatMovie.toJson());
+    return collection.doc(greatMovie.id).set(greatMovie.toJson());
   }
 
   @override
   Future<void> updateGreatMovie(GreatMovieModel greatMovie) async {
-    await collection.doc(greatMovie.firestoreId).update(greatMovie.toJson());
+    await collection.doc(greatMovie.id).update(greatMovie.toJson());
   }
 }

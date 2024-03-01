@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/movie_diary_entry_view_model.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +25,7 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
       if (mounted) {
         context
             .read<MovieDiaryEntryViewModel>()
-            .getMovieInfo(widget.greatMovie.firestoreId, widget.greatMovie.imdbId);
+            .getMovieInfo(widget.greatMovie.id, widget.greatMovie.imdbId);
       }
     });
   }
@@ -221,7 +220,7 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
           title: const Text('Delete Watch Entry', textAlign: TextAlign.center,),
           textColor: Colors.red,
           onTap: () {
-            viewModel.deleteMovieWatchEntry(widget.greatMovie.firestoreId);
+            viewModel.deleteMovieWatchEntry(widget.greatMovie.id);
             Navigator.of(context).popUntil((route) => route.isFirst);
           },
         ),

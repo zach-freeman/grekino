@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:grekino/models/firestore_great_movie_model.dart';
 import '../locator.dart';
 import 'package:intl/intl.dart';
 

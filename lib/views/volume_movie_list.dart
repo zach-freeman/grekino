@@ -1,10 +1,5 @@
-
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/models/great_movie_model.dart';
-import 'package:grekino/utils/great_movie_model_utils.dart';
 import 'package:grekino/view_models/volume_movie_list_view_model.dart';
 import 'package:grekino/views/movie_list_item.dart';
 import 'package:provider/provider.dart';

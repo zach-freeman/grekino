@@ -27,7 +27,7 @@ class _MovieListItemState extends State<MovieListItem> {
       if (mounted) {
         context
             .read<MovieListItemViewModel>()
-            .getMovieInfo(widget.greatMovie.firestoreId, widget.greatMovie.imdbId);
+            .getMovieInfo(widget.greatMovie.id, widget.greatMovie.imdbId);
       }
     });
   }

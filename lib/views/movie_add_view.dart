@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/models/firestore_great_movie_model.dart';
 import 'package:grekino/view_models/movie_add_view_model.dart';
 import 'package:grekino/views/movie_add_review_view.dart';
 import 'package:intl/intl.dart';

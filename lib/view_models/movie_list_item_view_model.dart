@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:grekino/repositories/i_tmdb_repository.dart';
 
 import '../locator.dart';
-import '../models/firestore_great_movie_model.dart';
 import '../models/great_movie_model.dart';
 import '../models/tmdb_results_model.dart';
 import '../repositories/i_firestore_great_movies_repository.dart';
