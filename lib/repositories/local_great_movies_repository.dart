@@ -63,9 +63,9 @@ class LocalGreatMoviesRepository extends ILocalGreatMoviesRepository {
     final isar = await db;
     return await isar.greatMovieModels
         .filter()
-        .nameContains(searchTerm)
+        .nameContains(searchTerm, caseSensitive: false)
         .or()
-        .directorContains(searchTerm)
+        .directorContains(searchTerm, caseSensitive: false)
         .findAll();
   }
 }
