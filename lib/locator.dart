@@ -1,16 +1,17 @@
-import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/repositories/firestore_great_movies_repository.dart';
-import 'package:grekino/repositories/great_movies_repository.dart';
 import 'package:grekino/repositories/i_firestore_great_movies_repository.dart';
-import 'package:grekino/repositories/i_great_movies_repository.dart';
+import 'package:grekino/repositories/i_local_great_movies_repository.dart';
 import 'package:grekino/repositories/i_tmdb_repository.dart';
+import 'package:grekino/repositories/local_great_movies_repository.dart';
 import 'package:grekino/repositories/tmdb_repository.dart';
 import 'package:get_it/get_it.dart';
+import 'package:grekino/services/connectivity_service.dart';
+import 'package:grekino/services/i_connectivity_service.dart';
 
 final locator = GetIt.I;
 void setupLocator() {
+  locator.registerSingleton<IConnectivityService>(ConnectivityService());
   locator.registerSingleton<IFirestoreGreatMoviesRepository>(FireStoreGreatMovieRepository());
-  locator.registerSingleton<IGreatMoviesRepository>(
-      GreatMoviesRepository(GreatMovieDatabase()));
+  locator.registerSingleton<ILocalGreatMoviesRepository>(LocalGreatMoviesRepository());
   locator.registerSingleton<ITmdbRepository>(TmdbRepository());
 }

@@ -3,6 +3,7 @@ import 'package:grekino/repositories/i_tmdb_repository.dart';
 
 import '../locator.dart';
 import '../models/firestore_great_movie_model.dart';
+import '../models/great_movie_model.dart';
 import '../models/tmdb_results_model.dart';
 import '../repositories/i_firestore_great_movies_repository.dart';
 
@@ -33,23 +34,23 @@ class MovieListItemViewModel extends ChangeNotifier {
     }
     setLoading(true);
     IFirestoreGreatMoviesRepository fsGreatMoviesRepo = locator<IFirestoreGreatMoviesRepository>();
-    FirestoreGreatMovie? greatMovie = await fsGreatMoviesRepo.getMovieForId(id);
+    GreatMovieModel? greatMovie = await fsGreatMoviesRepo.getMovieForId(id);
     if (greatMovie == null) {
       setLoading(false);
       return;
     }
-    if (greatMovie.posterImageUrl.isEmpty && greatMovie.description.isEmpty) {
+    if (greatMovie.posterImageUrl!.isEmpty && greatMovie.description!.isEmpty) {
       ITmdbRepository tmdbRepository = locator<ITmdbRepository>();
       MovieResult movieResult = await tmdbRepository.getMovieResult(imdbId!);
       String imageUrlPrefix = await tmdbRepository.getImageUrlPrefix();
       greatMovie.posterImageUrl = imageUrlPrefix + movieResult.posterPath;
       greatMovie.description = movieResult.overview;
-      setPosterImageUrl(greatMovie.posterImageUrl);
-      setDescription(greatMovie.description);
+      setPosterImageUrl(imageUrlPrefix + movieResult.posterPath);
+      setDescription(movieResult.overview);
       await fsGreatMoviesRepo.updateGreatMovie(greatMovie);
     } else {
-      setPosterImageUrl(greatMovie.posterImageUrl);
-      setDescription(greatMovie.description);
+      setPosterImageUrl(greatMovie.posterImageUrl ?? '');
+      setDescription(greatMovie.description ?? '');
     }
     setLoading(false);
   }

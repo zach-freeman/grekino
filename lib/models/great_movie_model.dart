@@ -1,93 +1,75 @@
-import 'dart:io';
 
-import 'package:drift/native.dart';
-import 'package:drift/drift.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
+import 'package:isar/isar.dart';
 part 'great_movie_model.g.dart';
 
-@DataClassName('GreatMovies')
-class GreatMovieModel extends Table {
-  @override
-  String get tableName => "great_movies";
-  TextColumn get id => text().named("Id")();
-  TextColumn get name => text().named("Name")();
-  TextColumn get director => text().named("Director")();
-  IntColumn get volume => integer().named("Volume")();
-  IntColumn get year => integer().named("Year")();
-  TextColumn get genres => text().named("Genres")();
-  TextColumn get description => text().named("Description")();
-  TextColumn get imdbId => text().named("ImdbId")();
-  TextColumn get posterImageUrl => text().named("PosterImageUrl")();
-  BoolColumn get isCriterion => boolean().named("IsCriterion")();
-  BoolColumn get isWatched => boolean().named("IsWatched")();
-  TextColumn get dateWatched => text().named("DateWatched")();
-  RealColumn get userStarRating => real().named("UserStarRating")();
-  TextColumn get userReview => text().named("UserReview")();
-}
+@collection
+class GreatMovieModel {
+  Id id = Isar.autoIncrement;
+  String? firestoreId;
+  String? name;
+  String? director;
+  int? volume;
+  int? year;
+  List<String>? genres;
+  String? description;
+  String? imdbId;
+  String? posterImageUrl;
+  bool? isCriterion;
+  bool? isWatched;
+  String? dateWatched;
+  double? userStarRating;
+  String? userReview;
+  bool isSynced;
 
-@DriftDatabase(tables: [GreatMovieModel])
-class GreatMovieDatabase extends _$GreatMovieDatabase {
-  GreatMovieDatabase() : super(_openConnection());
-
-  @override
-  int get schemaVersion => 1;
-
-  Future<List<GreatMovies>> moviesForVolume(int volume) {
-    return (select(greatMovieModel)
-          ..where((movie) => movie.volume.equals(volume)))
-        .get();
-  }
-
-  Future<GreatMovies> movieForId(String id) {
-    return (select(greatMovieModel)..where((movie) => movie.id.equals(id)))
-        .getSingle();
-  }
-
-  Future updateMovieWatchInfo(
-      String id, String dateWatched, double starRating, String review) {
-    return (update(greatMovieModel)..where((movie) => movie.id.equals(id)))
-        .write(GreatMovieModelCompanion(
-            isWatched: const Value(true),
-            dateWatched: Value(dateWatched),
-            userStarRating: Value(starRating),
-            userReview: Value(review)));
-  }
-
-  Future updateMovieInfo(String id, String posterImageUrl, String description) {
-    return (update(greatMovieModel)..where((movie) => movie.id.equals(id)))
-        .write(GreatMovieModelCompanion(
-      description: Value(description),
-      posterImageUrl: Value(posterImageUrl),
-    ));
-  }
-
-  Future<List<GreatMovies>> searchMovies(String searchTerm) {
-    String searchTermLower = searchTerm.toLowerCase();
-    return (select(greatMovieModel)
-          ..where((movie) =>
-              movie.director.lower().contains(searchTermLower) |
-              movie.name.lower().contains(searchTermLower)))
-        .get();
-  }
-}
-
-LazyDatabase _openConnection() {
-  return LazyDatabase(() async {
-    // put the database file into the documents folder
-    // for your app.
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'GreatMoviesSQLite.db3'));
-
-    if (!await file.exists()) {
-      // Extract the pre-populated database file from assets
-      final blob = await rootBundle.load('assets/GreatMoviesSQLite.db3');
-      final buffer = blob.buffer;
-      await file.writeAsBytes(
-          buffer.asUint8List(blob.offsetInBytes, blob.lengthInBytes));
-    }
-
-    return NativeDatabase.createInBackground(file);
+  GreatMovieModel({
+    this.firestoreId,
+    this.name,
+    this.director,
+    this.volume,
+    this.year,
+    this.genres,
+    this.description,
+    this.imdbId,
+    this.posterImageUrl,
+    this.isCriterion,
+    this.isWatched,
+    this.dateWatched,
+    this.userStarRating,
+    this.userReview,
+    this.isSynced = true,
   });
+
+  factory GreatMovieModel.fromJson(json) => GreatMovieModel(
+    firestoreId: json["Id"],
+    name: json["Name"],
+    director: json["Director"],
+    volume: json["Volume"],
+    year: json["Year"],
+    genres: List<String>.from(json["Genres"].map((x) => x)),
+    description: json["Description"],
+    imdbId: json["ImdbId"],
+    posterImageUrl: json["PosterImageUrl"],
+    isCriterion: json["IsCriterion"],
+    isWatched: json["IsWatched"],
+    dateWatched: json["DateWatched"],
+    userStarRating: json["UserStarRating"],
+    userReview: json["UserReview"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "Id": id,
+    "Name": name,
+    "Director": director,
+    "Volume": volume,
+    "Year": year,
+    "Genres": List<dynamic>.from(genres!.map((x) => x)),
+    "Description": description,
+    "ImdbId": imdbId,
+    "PosterImageUrl": posterImageUrl,
+    "IsCriterion": isCriterion,
+    "IsWatched": isWatched,
+    "DateWatched": dateWatched,
+    "UserStarRating": userStarRating,
+    "UserReview": userReview,
+  };
 }

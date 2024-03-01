@@ -3,6 +3,7 @@ import 'package:grekino/models/firestore_great_movie_model.dart';
 import '../locator.dart';
 import 'package:intl/intl.dart';
 
+import '../models/great_movie_model.dart';
 import '../repositories/i_firestore_great_movies_repository.dart';
 
 class MovieAddViewModel extends ChangeNotifier {
@@ -14,7 +15,7 @@ class MovieAddViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateMovie(FirestoreGreatMovie greatMovie, DateTime dateTime, double rating,
+  updateMovie(GreatMovieModel greatMovie, DateTime dateTime, double rating,
       String review) async {
     setLoading(true);
     IFirestoreGreatMoviesRepository fsGreatMoviesRepo =

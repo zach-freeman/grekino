@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_auth
+  isar_flutter_libs
   sqlite3_flutter_libs
 )
 
