@@ -4,6 +4,7 @@ import 'package:grekino/repositories/i_tmdb_repository.dart';
 import '../locator.dart';
 import '../models/great_movie_model.dart';
 import '../models/tmdb_results_model.dart';
+import '../providers/i_great_movies_provider.dart';
 import '../repositories/i_firestore_great_movies_repository.dart';
 
 class MovieListItemViewModel extends ChangeNotifier {
@@ -13,6 +14,10 @@ class MovieListItemViewModel extends ChangeNotifier {
   bool get loading => _loading;
   String get posterImageUrl => _posterImageUrl;
   String get description => _description;
+
+  late IGreatMoviesProvider greatMoviesProvider;
+
+  MovieListItemViewModel({required this.greatMoviesProvider});
 
   setLoading(bool loading) async {
     _loading = loading;
@@ -32,8 +37,7 @@ class MovieListItemViewModel extends ChangeNotifier {
       return;
     }
     setLoading(true);
-    IFirestoreGreatMoviesRepository fsGreatMoviesRepo = locator<IFirestoreGreatMoviesRepository>();
-    GreatMovieModel? greatMovie = await fsGreatMoviesRepo.getMovieForId(id);
+    GreatMovieModel? greatMovie = await greatMoviesProvider.getMovieForId(id);
     if (greatMovie == null) {
       setLoading(false);
       return;
@@ -46,7 +50,7 @@ class MovieListItemViewModel extends ChangeNotifier {
       greatMovie.description = movieResult.overview;
       setPosterImageUrl(imageUrlPrefix + movieResult.posterPath);
       setDescription(movieResult.overview);
-      await fsGreatMoviesRepo.updateGreatMovie(greatMovie);
+      await greatMoviesProvider.updateGreatMovie(greatMovie);
     } else {
       setPosterImageUrl(greatMovie.posterImageUrl ?? '');
       setDescription(greatMovie.description ?? '');

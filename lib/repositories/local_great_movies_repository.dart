@@ -50,6 +50,26 @@ class LocalGreatMoviesRepository extends ILocalGreatMoviesRepository {
   }
 
   @override
+  Future<GreatMovieModel?> getMovieForId(String id) async {
+    final isar = await db;
+    return await isar.greatMovieModels
+        .filter()
+        .idEqualTo(id)
+        .limit(1)
+        .findFirst();
+  }
+
+  @override
+  Future<GreatMovieModel?> getMovieForImdbId(String id) async {
+    final isar = await db;
+    return await isar.greatMovieModels
+        .filter()
+         .imdbIdEqualTo(id)
+        .limit(1)
+        .findFirst();
+  }
+
+  @override
   Stream<List<GreatMovieModel>> getMoviesForVolume(int volume) async* {
     final isar = await db;
     yield*  isar.greatMovieModels
@@ -68,4 +88,14 @@ class LocalGreatMoviesRepository extends ILocalGreatMoviesRepository {
         .directorContains(searchTerm, caseSensitive: false)
         .findAll();
   }
+
+  @override
+  Future<void> updateGreatMovie(GreatMovieModel greatMovie) async {
+    final isar = await db;
+    await isar.writeTxn(() async {
+      await isar.greatMovieModels.put(greatMovie);
+    });
+  }
+
+
 }

@@ -9,7 +9,6 @@ class Init {
   }
 
   static _registerServices() async {
-    //TODO register services
     setupLocator();
   }
 

@@ -25,7 +25,7 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
       if (mounted) {
         context
             .read<MovieDiaryEntryViewModel>()
-            .getMovieInfo(widget.greatMovie.id, widget.greatMovie.imdbId);
+            .getMovieInfo(widget.greatMovie.id);
       }
     });
   }

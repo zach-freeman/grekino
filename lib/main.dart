@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grekino/providers/i_great_movies_provider.dart';
+import 'package:grekino/repositories/i_tmdb_repository.dart';
 import 'package:grekino/view_models/movie_add_view_model.dart';
 import 'package:grekino/view_models/movie_diary_entry_view_model.dart';
 import 'package:grekino/view_models/volume_movie_list_view_model.dart';
@@ -10,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'init.dart';
+import 'locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,10 +22,19 @@ void main() async {
   final Future initFuture = Init.initialize();
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => VolumeMovieListViewModel()),
-      ChangeNotifierProvider(create: (_) => MovieListItemViewModel()),
-      ChangeNotifierProvider(create: (_) => MovieAddViewModel()),
-      ChangeNotifierProvider(create: (_) => MovieDiaryEntryViewModel())
+      ChangeNotifierProvider(
+          create: (_) => VolumeMovieListViewModel(
+              greatMoviesProvider: locator<IGreatMoviesProvider>())),
+      ChangeNotifierProvider(
+          create: (_) => MovieListItemViewModel(
+              greatMoviesProvider: locator<IGreatMoviesProvider>())),
+      ChangeNotifierProvider(
+          create: (_) => MovieAddViewModel(
+              greatMoviesProvider: locator<IGreatMoviesProvider>())),
+      ChangeNotifierProvider(
+          create: (_) => MovieDiaryEntryViewModel(
+              greatMoviesProvider: locator<IGreatMoviesProvider>(),
+              tmdbRepository: locator<ITmdbRepository>()))
     ],
     child: MaterialApp(
         home: FutureBuilder(
@@ -31,10 +43,9 @@ void main() async {
               if (snapshot.connectionState == ConnectionState.done) {
                 return const AuthGateView();
               } else {
-                return SplashView();
+                return const SplashView();
               }
-            }
-        ) ,
+            }),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
