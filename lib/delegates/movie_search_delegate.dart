@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/models/firestore_great_movie_model.dart';
-import 'package:grekino/repositories/i_great_movies_repository.dart';
+import 'package:grekino/repositories/i_local_great_movies_repository.dart';
 
 import '../locator.dart';
 import '../models/great_movie_model.dart';
@@ -90,15 +89,15 @@ class MovieSearchDelegate extends SearchDelegate {
     return Container();
   }
 
-  Future<FirestoreGreatMovie?> getMovie(String imdbId) {
+  Future<GreatMovieModel?> getMovie(String imdbId) {
     IFirestoreGreatMoviesRepository fsGreatMoviesRepo =
     locator<IFirestoreGreatMoviesRepository>();
     return fsGreatMoviesRepo.getMovieForImdbId(imdbId);
   }
 
-  Future<List<GreatMovies>> searchChanged(String query) async {
-    IGreatMoviesRepository greatMoviesRepository =
-        locator<IGreatMoviesRepository>();
+  Future<List<GreatMovieModel>> searchChanged(String query) async {
+    ILocalGreatMoviesRepository greatMoviesRepository =
+        locator<ILocalGreatMoviesRepository>();
     return await greatMoviesRepository.searchMovies(query);
   }
 

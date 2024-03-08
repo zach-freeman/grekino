@@ -1,32 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:grekino/locator.dart';
+import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/repositories/i_firestore_great_movies_repository.dart';
+import 'package:grekino/repositories/i_local_great_movies_repository.dart';
+import 'package:grekino/services/i_connectivity_service.dart';
+
+import '../providers/i_great_movies_provider.dart';
 
 class VolumeMovieListViewModel extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
-  Stream<QuerySnapshot>? _streamGreatMovies;
-  Stream<QuerySnapshot>? get streamGreatMovies => _streamGreatMovies;
+  Stream<List<GreatMovieModel>>? _streamGreatMovies;
+  Stream<List<GreatMovieModel>>? get streamGreatMovies => _streamGreatMovies;
 
-  late IFirestoreGreatMoviesRepository fsGreatMoviesRepo;
+  late IGreatMoviesProvider greatMoviesProvider;
 
-  VolumeMovieListViewModel({IFirestoreGreatMoviesRepository? firestoreGreatMoviesRepository}) {
-    fsGreatMoviesRepo = firestoreGreatMoviesRepository ?? locator.get<IFirestoreGreatMoviesRepository>();
-  }
+  VolumeMovieListViewModel({required this.greatMoviesProvider});
 
   setLoading(bool loading) async {
     _loading = loading;
     notifyListeners();
   }
 
-  setGreatMovieList(Stream<QuerySnapshot> snapshot) {
-    _streamGreatMovies = snapshot;
+  setGreatMovieList(Stream<List<GreatMovieModel>> moviesStream) {
+    _streamGreatMovies = moviesStream;
   }
 
   getGreatMovies(int volume) async {
     setLoading(true);
-    var greatMovieList = fsGreatMoviesRepo.getStreamForVolume(volume);
+    var greatMovieList = greatMoviesProvider.getMoviesForVolume(volume);
     setGreatMovieList(greatMovieList);
     setLoading(false);
   }

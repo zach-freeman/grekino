@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/models/firestore_great_movie_model.dart';
+import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/movie_diary_entry_view_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'movie_add_view.dart';
 
 class MovieDiaryEntryView extends StatefulWidget {
-  final FirestoreGreatMovie greatMovie;
+  final GreatMovieModel greatMovie;
 
   const MovieDiaryEntryView({super.key, required this.greatMovie});
 
@@ -25,7 +25,7 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
       if (mounted) {
         context
             .read<MovieDiaryEntryViewModel>()
-            .getMovieInfo(widget.greatMovie.id, widget.greatMovie.imdbId);
+            .getMovieInfo(widget.greatMovie.id);
       }
     });
   }
@@ -76,7 +76,7 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.greatMovie.name,
+                Text(widget.greatMovie.name!,
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 7),
@@ -84,10 +84,10 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 7),
-                _ratingStars(),
+                _ratingStars(widget.greatMovie.userStarRating),
                 const SizedBox(height: 7),
                 Text(
-                    'Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched))}',
+                    'Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched!))}',
                     style:
                         const TextStyle(fontSize: 15, color: Colors.black54)),
               ],
@@ -105,35 +105,40 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
   }
 
   DateTime parseDate(String dateWatched) {
-    return DateFormat("yyyy-MM-dd").parse(widget.greatMovie.dateWatched);
+    return DateFormat("yyyy-MM-dd").parse(widget.greatMovie.dateWatched!);
   }
 
-  Widget _ratingStars() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        Icon(Icons.star,
-            color: widget.greatMovie.userStarRating > 0.0
-                ? Colors.green.shade400
-                : Colors.grey.shade100),
-        Icon(Icons.star,
-            color: widget.greatMovie.userStarRating > 1.0
-                ? Colors.green.shade400
-                : Colors.grey.shade100),
-        Icon(Icons.star,
-            color: widget.greatMovie.userStarRating > 2.0
-                ? Colors.green.shade400
-                : Colors.grey.shade100),
-        Icon(Icons.star,
-            color: widget.greatMovie.userStarRating > 3.0
-                ? Colors.green.shade400
-                : Colors.grey.shade100),
-      ],
-    );
+  Widget _ratingStars(double? userStarRating) {
+    if (userStarRating != null) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Icon(Icons.star,
+              color: userStarRating > 0.0
+                  ? Colors.green.shade400
+                  : Colors.grey.shade100),
+          Icon(Icons.star,
+              color: userStarRating > 1.0
+                  ? Colors.green.shade400
+                  : Colors.grey.shade100),
+          Icon(Icons.star,
+              color: userStarRating > 2.0
+                  ? Colors.green.shade400
+                  : Colors.grey.shade100),
+          Icon(Icons.star,
+              color: userStarRating > 3.0
+                  ? Colors.green.shade400
+                  : Colors.grey.shade100),
+        ],
+      );
+    }
+    return const SizedBox();
   }
 
-  Widget _getMoreBottomSheet(MovieDiaryEntryViewModel viewModel) {
+  Widget _getMoreBottomSheet(
+      MovieDiaryEntryViewModel viewModel
+  ) {
     return Container(
       height: 250,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -146,12 +151,12 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(widget.greatMovie.name,
+            Text(widget.greatMovie.name ?? 'Unknown',
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center),
             Text(
-                'Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched))}',
+                'Watched ${DateFormat('MMM d, yyyy').format(parseDate(widget.greatMovie.dateWatched ?? ''))}',
                 textAlign: TextAlign.center),
             const Divider(),
             TextButton(
@@ -181,7 +186,7 @@ class _MovieDiaryEntryViewState extends State<MovieDiaryEntryView> {
                       fullscreenDialog: true,
                       builder: (context) => MovieAddView(
                           greatMovie: widget.greatMovie,
-                          posterImageUrl: widget.greatMovie.posterImageUrl)));
+                          posterImageUrl: widget.greatMovie.posterImageUrl ?? '')));
                 },
                 style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,

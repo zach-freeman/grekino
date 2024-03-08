@@ -1,8 +1,5 @@
-
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/models/firestore_great_movie_model.dart';
+import 'package:grekino/models/great_movie_model.dart';
 import 'package:grekino/view_models/volume_movie_list_view_model.dart';
 import 'package:grekino/views/movie_list_item.dart';
 import 'package:provider/provider.dart';
@@ -60,21 +57,21 @@ class _VolumeMovieListState extends State<VolumeMovieList> {
         child: CircularProgressIndicator(),
       ));
     }
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<List<GreatMovieModel>>(
       stream: volumeMovieListViewModel.streamGreatMovies,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
               key: PageStorageKey<String>('page${volume.toString()}'),
-              itemCount: snapshot.requireData.docs.length,
+              itemCount: snapshot.data?.length,
               padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {
-                FirestoreGreatMovie greatMovie = FirestoreGreatMovie.fromSnapshot(snapshot.requireData.docs[index]);
+                GreatMovieModel greatMovie = snapshot.data![index];
                 return ListTile(
-                  title: Text(greatMovie.name),
+                  title: Text(greatMovie.name ?? 'Unknown'),
                   trailing: const Icon(Icons.visibility),
-                  iconColor: greatMovie.isWatched ? Colors.blue : Colors.grey,
-                  subtitle: Text(greatMovie.director),
+                  iconColor: greatMovie.isWatched ?? false ? Colors.blue : Colors.grey,
+                  subtitle: Text(greatMovie.director ?? 'Unknown'),
                   onTap: () {
                     Navigator.push(
                         context,

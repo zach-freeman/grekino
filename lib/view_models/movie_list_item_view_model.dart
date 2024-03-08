@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:grekino/repositories/i_tmdb_repository.dart';
 
 import '../locator.dart';
-import '../models/firestore_great_movie_model.dart';
+import '../models/great_movie_model.dart';
 import '../models/tmdb_results_model.dart';
+import '../providers/i_great_movies_provider.dart';
 import '../repositories/i_firestore_great_movies_repository.dart';
 
 class MovieListItemViewModel extends ChangeNotifier {
@@ -13,6 +14,10 @@ class MovieListItemViewModel extends ChangeNotifier {
   bool get loading => _loading;
   String get posterImageUrl => _posterImageUrl;
   String get description => _description;
+
+  late IGreatMoviesProvider greatMoviesProvider;
+
+  MovieListItemViewModel({required this.greatMoviesProvider});
 
   setLoading(bool loading) async {
     _loading = loading;
@@ -32,24 +37,23 @@ class MovieListItemViewModel extends ChangeNotifier {
       return;
     }
     setLoading(true);
-    IFirestoreGreatMoviesRepository fsGreatMoviesRepo = locator<IFirestoreGreatMoviesRepository>();
-    FirestoreGreatMovie? greatMovie = await fsGreatMoviesRepo.getMovieForId(id);
+    GreatMovieModel? greatMovie = await greatMoviesProvider.getMovieForId(id);
     if (greatMovie == null) {
       setLoading(false);
       return;
     }
-    if (greatMovie.posterImageUrl.isEmpty && greatMovie.description.isEmpty) {
+    if (greatMovie.posterImageUrl!.isEmpty && greatMovie.description!.isEmpty) {
       ITmdbRepository tmdbRepository = locator<ITmdbRepository>();
       MovieResult movieResult = await tmdbRepository.getMovieResult(imdbId!);
       String imageUrlPrefix = await tmdbRepository.getImageUrlPrefix();
       greatMovie.posterImageUrl = imageUrlPrefix + movieResult.posterPath;
       greatMovie.description = movieResult.overview;
-      setPosterImageUrl(greatMovie.posterImageUrl);
-      setDescription(greatMovie.description);
-      await fsGreatMoviesRepo.updateGreatMovie(greatMovie);
+      setPosterImageUrl(imageUrlPrefix + movieResult.posterPath);
+      setDescription(movieResult.overview);
+      await greatMoviesProvider.updateGreatMovie(greatMovie);
     } else {
-      setPosterImageUrl(greatMovie.posterImageUrl);
-      setDescription(greatMovie.description);
+      setPosterImageUrl(greatMovie.posterImageUrl ?? '');
+      setDescription(greatMovie.description ?? '');
     }
     setLoading(false);
   }
