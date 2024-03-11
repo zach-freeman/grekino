@@ -21,18 +21,22 @@ void main() {
   group('Testing Movie Add View Model', () {
     test(
         'Given the initial state, When call updateMovie(), Then call greatMovieProvider',
-      () async {
-          final GreatMovieModel original = GreatMovieModel.fromJson(localGreatMovies[0].toJson());
-          var greatMovie = localGreatMovies[0];
-          var dateTime = DateTime.now();
-          var rating = 3.3;
-          var review = 'Keeping it real ... real dumb!';
-          await viewModel.updateMovie(greatMovie, dateTime, rating, review);
-          final GreatMovieModel captured = verify(greatMoviesProvider.updateGreatMovie(captureAny)).captured.single;
-          expect(captured, isNot(original));
-          expect(captured.userReview, review);
-          expect(captured.userStarRating, rating);
-          expect(captured.dateWatched?.length, 10);
+        () async {
+      final GreatMovieModel original =
+          GreatMovieModel.fromJson(localGreatMovies[0].toJson());
+      var greatMovie = localGreatMovies[0];
+      var dateTime = DateTime.now();
+      var rating = 3.3;
+      var review = 'Keeping it real ... real dumb!';
+      await viewModel.updateMovie(greatMovie, dateTime, rating, review);
+      final GreatMovieModel captured =
+          verify(greatMoviesProvider.updateGreatMovie(captureAny))
+              .captured
+              .single;
+      expect(captured, isNot(original));
+      expect(captured.userReview, review);
+      expect(captured.userStarRating, rating);
+      expect(captured.dateWatched?.length, 10);
     });
   });
 }

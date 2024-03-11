@@ -36,7 +36,7 @@ void main() {
         localGreatMoviesRepository: localGreatMoviesRepository,
         firestoreGreatMoviesRepository: firestoreGreatMoviesRepository);
     when(firestoreGreatMoviesRepository.getMovieForId(testMovieId))
-      .thenAnswer((_) async => firestoreGreatMovies[0]);
+        .thenAnswer((_) async => firestoreGreatMovies[0]);
     when(localGreatMoviesRepository.getMovieForId(testMovieId))
         .thenAnswer((_) async => localGreatMovies[0]);
     when(firestoreGreatMoviesRepository.getMovieForImdbId(testMovieImdbId))
@@ -45,56 +45,77 @@ void main() {
         .thenAnswer((_) async => localGreatMovies[1]);
     when(localGreatMoviesRepository.getMoviesForVolume(testGreatMovieVolume))
         .thenAnswer((_) => Stream.fromIterable([localGreatMovies]));
-    when(firestoreGreatMoviesRepository.getMoviesForVolume(testGreatMovieVolume))
+    when(firestoreGreatMoviesRepository
+            .getMoviesForVolume(testGreatMovieVolume))
         .thenAnswer((_) => Stream.fromIterable([firestoreGreatMovies]));
     when(localGreatMoviesRepository.searchMovies(testMovieSearchTerm))
-      .thenAnswer((_) async => localGreatMovies);
+        .thenAnswer((_) async => localGreatMovies);
   });
   group('Testing Great Movies Provider', () {
-    test('Given that we are connected, When call getMovieForId, Then provider should return firestore movie', () async {
+    test(
+        'Given that we are connected, When call getMovieForId, Then provider should return firestore movie',
+        () async {
       when(connectivityService.isDeviceConnected).thenReturn(true);
       expect(
           await provider.getMovieForId(testMovieId), firestoreGreatMovies[0]);
     });
-    test('Given that we are not connected, When call getMovieForId, Then provider should return local movie', () async {
+    test(
+        'Given that we are not connected, When call getMovieForId, Then provider should return local movie',
+        () async {
       when(connectivityService.isDeviceConnected).thenReturn(false);
-      expect(
-          await provider.getMovieForId(testMovieId), localGreatMovies[0]);
+      expect(await provider.getMovieForId(testMovieId), localGreatMovies[0]);
     });
-    test('Given that we are connected, When call getMovieForImdbId, Then provider should return firestore movie', () async {
+    test(
+        'Given that we are connected, When call getMovieForImdbId, Then provider should return firestore movie',
+        () async {
       when(connectivityService.isDeviceConnected).thenReturn(true);
-      expect(
-          await provider.getMovieForImdbId(testMovieImdbId), firestoreGreatMovies[1]);
+      expect(await provider.getMovieForImdbId(testMovieImdbId),
+          firestoreGreatMovies[1]);
     });
-    test('Given that we are not connected, When call getMovieForImdbId, Then provider should return local movie', () async {
+    test(
+        'Given that we are not connected, When call getMovieForImdbId, Then provider should return local movie',
+        () async {
       when(connectivityService.isDeviceConnected).thenReturn(false);
-      expect(
-          await provider.getMovieForImdbId(testMovieImdbId), localGreatMovies[1]);
+      expect(await provider.getMovieForImdbId(testMovieImdbId),
+          localGreatMovies[1]);
     });
-    test('Given that we are not connected, When call getMoviesForVolume, Then provider should return local movies', () {
+    test(
+        'Given that we are not connected, When call getMoviesForVolume, Then provider should return local movies',
+        () {
       when(connectivityService.isDeviceConnected).thenReturn(false);
-      expect(
-          provider.getMoviesForVolume(testGreatMovieVolume), emits([localGreatMovies[0], localGreatMovies[1]]));
+      expect(provider.getMoviesForVolume(testGreatMovieVolume),
+          emits([localGreatMovies[0], localGreatMovies[1]]));
     });
-    test('Given that we are connected, When call getMoviesForVolume, Then provider should return firestore movies', () {
+    test(
+        'Given that we are connected, When call getMoviesForVolume, Then provider should return firestore movies',
+        () {
       when(connectivityService.isDeviceConnected).thenReturn(true);
-      expect(
-          provider.getMoviesForVolume(testGreatMovieVolume), emits([firestoreGreatMovies[0], firestoreGreatMovies[1]]));
+      expect(provider.getMoviesForVolume(testGreatMovieVolume),
+          emits([firestoreGreatMovies[0], firestoreGreatMovies[1]]));
     });
-    test('Given that we provide a search term, When call searchMovies, Then provider should return search movies', () async {
+    test(
+        'Given that we provide a search term, When call searchMovies, Then provider should return search movies',
+        () async {
       when(connectivityService.isDeviceConnected).thenReturn(true);
-      expect(
-          await provider.searchMovies(testMovieSearchTerm), isA<List<GreatMovieModel>>());
+      expect(await provider.searchMovies(testMovieSearchTerm),
+          isA<List<GreatMovieModel>>());
     });
-    test('Given that we are connected, When call updateGreatMovie, Then provider should call firestore repository', () async {
+    test(
+        'Given that we are connected, When call updateGreatMovie, Then provider should call firestore repository',
+        () async {
       when(connectivityService.isDeviceConnected).thenReturn(true);
       await provider.updateGreatMovie(localGreatMovies[0]);
-      verify(firestoreGreatMoviesRepository.updateGreatMovie(localGreatMovies[0])).called(1);
+      verify(firestoreGreatMoviesRepository
+              .updateGreatMovie(localGreatMovies[0]))
+          .called(1);
     });
-    test('Given that we are not connected, When call updateGreatMovie, Then provider should call firestore repository', () async {
+    test(
+        'Given that we are not connected, When call updateGreatMovie, Then provider should call firestore repository',
+        () async {
       when(connectivityService.isDeviceConnected).thenReturn(false);
       await provider.updateGreatMovie(localGreatMovies[0]);
-      verify(localGreatMoviesRepository.updateGreatMovie(localGreatMovies[0])).called(1);
+      verify(localGreatMoviesRepository.updateGreatMovie(localGreatMovies[0]))
+          .called(1);
     });
   });
 }

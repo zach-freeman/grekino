@@ -60,4 +60,40 @@ void main() {
     expect(nameFinder, findsNothing);
     expect(circularProgress, findsOneWidget);
   });
+  testWidgets('Given not loading, When movie isWatched is true, Then do NOT show fab button', (widgetTester) async {
+    var greatMovie = localGreatMovies[0];
+    greatMovie.isWatched = true;
+    when(mockMovieListItemViewModel.loading).thenReturn(false);
+    await widgetTester.pumpWidget(
+      makeTestableWidget(
+          MovieListItem(pageTitle: 'test', greatMovie: greatMovie)),
+      const Duration(milliseconds: 500),
+    );
+
+    final titleFinder = find.text('test');
+    final nameFinder = find.text(greatMovie.name!);
+    final fabButton = find.byType(FloatingActionButton);
+
+    expect(titleFinder, findsOneWidget);
+    expect(nameFinder, findsOneWidget);
+    expect(fabButton, findsNothing);
+  });
+  testWidgets('Given not loading, When movie isWatched is false, Then do show fab button', (widgetTester) async {
+    var greatMovie = localGreatMovies[0];
+    greatMovie.isWatched = false;
+    when(mockMovieListItemViewModel.loading).thenReturn(false);
+    await widgetTester.pumpWidget(
+      makeTestableWidget(
+          MovieListItem(pageTitle: 'test', greatMovie: greatMovie)),
+      const Duration(milliseconds: 500),
+    );
+
+    final titleFinder = find.text('test');
+    final nameFinder = find.text(greatMovie.name!);
+    final fabButton = find.byType(FloatingActionButton);
+
+    expect(titleFinder, findsOneWidget);
+    expect(nameFinder, findsOneWidget);
+    expect(fabButton, findsOneWidget);
+  });
 }
