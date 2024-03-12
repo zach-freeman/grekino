@@ -1,16 +1,41 @@
-# grekino
+## grekino
 
-A new Flutter project.
+Grekino is a Flutter app for discovering the Great Movies.
+
+
+### Built With
+
+* [![get it][GetIt][https://pub.dev/packages/get_it]]
+* [![cloud_firestore][Cloud Firestore][https://pub.dev/packages/cloud_firestore]]
+* [![firebase_auth][Firebase Auth][https://pub.dev/packages/firebase_auth]]
+* [![isar_db][Isar Database][https://pub.dev/packages/isar]]
+* [![mockito][Mockito][https://pub.dev/packages/mockito]]
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Here are some helpful tips for setting up the project locally.
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Install the dependencies
+* dart
+```sh
+flutter pub get
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. Get a free API Key at [TMDB](https://developer.themoviedb.org/docs/getting-started)
+2. Clone the repo
+```sh
+git clone https://github.com/zach-freeman/grekino.git
+```
+3. Install the flutter packages
+```sh
+flutter pub get
+```
+4. Enter your API_KEY in `api_keys.dart`
+```sh
+const String tmdbApiKey = 'YOUR API KEY';
+```
+
