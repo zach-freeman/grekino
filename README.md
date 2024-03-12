@@ -5,11 +5,12 @@ Grekino is a Flutter app for discovering the Great Movies.
 
 ### Built With
 
-* [![get it][getit-img]][getit-url]
+* [![GetIt][getit-img]][getit-url]
 * [![cloud_firestore][cloud-firestore-img]][cloud-firestore-url]
 * [![firebase_auth][firebase-auth-img]][firebase-auth-url]
 * [![isar_db][isar-db-img]][isar-db-url]
 * [![mockito][mockito-img]][mockito-url]
+
 
 ## Getting Started
 
@@ -41,13 +42,14 @@ const String tmdbApiKey = 'YOUR API KEY';
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[getit-url] : https://pub.dev/packages/get_it
-[getit-img] : https://img.shields.io/badge/getit-000000?style=for-the-badge&logo=getit&logoColor=white
-[cloud-firestore-url] : https://pub.dev/packages/cloud_firestore
-[cloud-firestore-img] : https://img.shields.io/badge/cloudfirestore-000000?style=for-the-badge&logo=firestore&logoColor=white
-[firebase-auth-url] : https://pub.dev/packages/firebase_auth
-[firebase-auth-img] : https://img.shields.io/badge/firebaseauth-000000?style=for-the-badge&logo=firebaseauth&logoColor=white
-[isar-db-url] : https://pub.dev/packages/isar
-[isar-db-img] : https://img.shields.io/badge/isar-000000?style=for-the-badge&logo=isar&logoColor=white
-[mockito-url] : https://pub.dev/packages/mockito
-[mocktio-img] : https://img.shields.io/badge/mockito-000000?style=for-the-badge&logo=mockito&logoColor=white
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[getit-url]: https://pub.dev/packages/get_it
+[getit-img]: https://img.shields.io/badge/get_it-000000?style=for-the-badge&logo=flutter&logoColor=blue
+[cloud-firestore-url]: https://pub.dev/packages/cloud_firestore
+[cloud-firestore-img]: https://img.shields.io/badge/cloud_firestore-000000?style=for-the-badge&logo=flutter&logoColor=blue
+[firebase-auth-url]: https://pub.dev/packages/firebase_auth
+[firebase-auth-img]: https://img.shields.io/badge/firebase_auth-000000?style=for-the-badge&logo=flutter&logoColor=blue
+[isar-db-url]: https://pub.dev/packages/isar
+[isar-db-img]: https://img.shields.io/badge/isar_DB-000000?style=for-the-badge&logo=flutter&logoColor=blue
+[mockito-url]: https://pub.dev/packages/mockito
+[mockito-img]: https://img.shields.io/badge/mockito-000000?style=for-the-badge&logo=flutter&logoColor=blue
