@@ -1,9 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:grekino/locator.dart';
 import 'package:grekino/models/great_movie_model.dart';
-import 'package:grekino/repositories/i_firestore_great_movies_repository.dart';
-import 'package:grekino/repositories/i_local_great_movies_repository.dart';
-import 'package:grekino/services/i_connectivity_service.dart';
 
 import '../providers/i_great_movies_provider.dart';
 

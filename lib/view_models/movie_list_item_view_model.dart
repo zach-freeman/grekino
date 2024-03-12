@@ -5,7 +5,6 @@ import '../locator.dart';
 import '../models/great_movie_model.dart';
 import '../models/tmdb_results_model.dart';
 import '../providers/i_great_movies_provider.dart';
-import '../repositories/i_firestore_great_movies_repository.dart';
 
 class MovieListItemViewModel extends ChangeNotifier {
   bool _loading = false;

@@ -4,8 +4,6 @@ import 'package:grekino/providers/great_movies_provider.dart';
 import 'package:grekino/providers/i_great_movies_provider.dart';
 import 'package:grekino/repositories/i_firestore_great_movies_repository.dart';
 import 'package:grekino/repositories/i_local_great_movies_repository.dart';
-import 'package:grekino/repositories/local_great_movies_repository.dart';
-import 'package:grekino/services/connectivity_service.dart';
 import 'package:grekino/services/i_connectivity_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
