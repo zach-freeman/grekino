@@ -3,12 +3,10 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
-import 'dart:ui' as _i6;
+import 'dart:async' as _i3;
 
-import 'package:grekino/models/great_movie_model.dart' as _i5;
+import 'package:grekino/models/great_movie_model.dart' as _i4;
 import 'package:grekino/providers/i_great_movies_provider.dart' as _i2;
-import 'package:grekino/view_models/volume_movie_list_view_model.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -24,121 +22,66 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeIGreatMoviesProvider_0 extends _i1.SmartFake
-    implements _i2.IGreatMoviesProvider {
-  _FakeIGreatMoviesProvider_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-/// A class which mocks [VolumeMovieListViewModel].
+/// A class which mocks [IGreatMoviesProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockVolumeMovieListViewModel extends _i1.Mock
-    implements _i3.VolumeMovieListViewModel {
+class MockIGreatMoviesProvider extends _i1.Mock
+    implements _i2.IGreatMoviesProvider {
   @override
-  _i2.IGreatMoviesProvider get greatMoviesProvider => (super.noSuchMethod(
-        Invocation.getter(#greatMoviesProvider),
-        returnValue: _FakeIGreatMoviesProvider_0(
-          this,
-          Invocation.getter(#greatMoviesProvider),
-        ),
-        returnValueForMissingStub: _FakeIGreatMoviesProvider_0(
-          this,
-          Invocation.getter(#greatMoviesProvider),
-        ),
-      ) as _i2.IGreatMoviesProvider);
-
-  @override
-  set greatMoviesProvider(_i2.IGreatMoviesProvider? _greatMoviesProvider) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #greatMoviesProvider,
-          _greatMoviesProvider,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  bool get loading => (super.noSuchMethod(
-        Invocation.getter(#loading),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  dynamic setLoading(bool? loading) => super.noSuchMethod(
+  _i3.Future<_i4.GreatMovieModel?> getMovieForId(String? id) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #setLoading,
-          [loading],
+          #getMovieForId,
+          [id],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i3.Future<_i4.GreatMovieModel?>.value(),
+        returnValueForMissingStub: _i3.Future<_i4.GreatMovieModel?>.value(),
+      ) as _i3.Future<_i4.GreatMovieModel?>);
 
   @override
-  dynamic setGreatMovieList(
-          _i4.Stream<List<_i5.GreatMovieModel>>? moviesStream) =>
-      super.noSuchMethod(
+  _i3.Future<_i4.GreatMovieModel?> getMovieForImdbId(String? imdbId) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #setGreatMovieList,
-          [moviesStream],
+          #getMovieForImdbId,
+          [imdbId],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i3.Future<_i4.GreatMovieModel?>.value(),
+        returnValueForMissingStub: _i3.Future<_i4.GreatMovieModel?>.value(),
+      ) as _i3.Future<_i4.GreatMovieModel?>);
 
   @override
-  dynamic getGreatMovies(int? volume) => super.noSuchMethod(
+  _i3.Stream<List<_i4.GreatMovieModel>> getMoviesForVolume(int? volume) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #getGreatMovies,
+          #getMoviesForVolume,
           [volume],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i3.Stream<List<_i4.GreatMovieModel>>.empty(),
+        returnValueForMissingStub:
+            _i3.Stream<List<_i4.GreatMovieModel>>.empty(),
+      ) as _i3.Stream<List<_i4.GreatMovieModel>>);
 
   @override
-  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  _i3.Future<List<_i4.GreatMovieModel>> searchMovies(String? searchTerm) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #addListener,
-          [listener],
+          #searchMovies,
+          [searchTerm],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i3.Future<List<_i4.GreatMovieModel>>.value(
+            <_i4.GreatMovieModel>[]),
+        returnValueForMissingStub: _i3.Future<List<_i4.GreatMovieModel>>.value(
+            <_i4.GreatMovieModel>[]),
+      ) as _i3.Future<List<_i4.GreatMovieModel>>);
 
   @override
-  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  _i3.Future<void> updateGreatMovie(_i4.GreatMovieModel? greatMovie) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #removeListener,
-          [listener],
+          #updateGreatMovie,
+          [greatMovie],
         ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }

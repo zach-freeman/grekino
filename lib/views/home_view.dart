@@ -39,6 +39,7 @@ class HomeView extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: IconButton(
+                    key: const Key('searchButton'),
                     onPressed: () {
                       // method to show the search bar
                       showSearch(
