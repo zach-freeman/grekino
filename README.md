@@ -5,11 +5,11 @@ Grekino is a Flutter app for discovering the Great Movies.
 
 ### Built With
 
-* [![get it][getit-img][getit-url]]
-* [![cloud_firestore][cloud-firestore-img][cloud-firestore-url]]
-* [![firebase_auth][firebase-auth-img][firebase-auth-url]]
-* [![isar_db][isar-db-img][isar-db-url]]
-* [![mockito][mockito-img][mockito-url]]
+* [![get it][getit-img]][getit-url]
+* [![cloud_firestore][cloud-firestore-img]][cloud-firestore-url]
+* [![firebase_auth][firebase-auth-img]][firebase-auth-url]
+* [![isar_db][isar-db-img]][isar-db-url]
+* [![mockito][mockito-img]][mockito-url]
 
 ## Getting Started
 
