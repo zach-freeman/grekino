@@ -5,11 +5,11 @@ Grekino is a Flutter app for discovering the Great Movies.
 
 ### Built With
 
-* [![get it][GetIt][https://pub.dev/packages/get_it]]
-* [![cloud_firestore][Cloud Firestore][https://pub.dev/packages/cloud_firestore]]
-* [![firebase_auth][Firebase Auth][https://pub.dev/packages/firebase_auth]]
-* [![isar_db][Isar Database][https://pub.dev/packages/isar]]
-* [![mockito][Mockito][https://pub.dev/packages/mockito]]
+* [![get it][getit-img][getit-url]]
+* [![cloud_firestore][cloud-firestore-img][cloud-firestore-url]]
+* [![firebase_auth][firebase-auth-img][firebase-auth-url]]
+* [![isar_db][isar-db-img][isar-db-url]]
+* [![mockito][mockito-img][mockito-url]]
 
 ## Getting Started
 
@@ -39,3 +39,15 @@ flutter pub get
 const String tmdbApiKey = 'YOUR API KEY';
 ```
 
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[getit-url] : https://pub.dev/packages/get_it
+[getit-img] : https://img.shields.io/badge/getit-000000?style=for-the-badge&logo=getit&logoColor=white
+[cloud-firestore-url] : https://pub.dev/packages/cloud_firestore
+[cloud-firestore-img] : https://img.shields.io/badge/cloudfirestore-000000?style=for-the-badge&logo=firestore&logoColor=white
+[firebase-auth-url] : https://pub.dev/packages/firebase_auth
+[firebase-auth-img] : https://img.shields.io/badge/firebaseauth-000000?style=for-the-badge&logo=firebaseauth&logoColor=white
+[isar-db-url] : https://pub.dev/packages/isar
+[isar-db-img] : https://img.shields.io/badge/isar-000000?style=for-the-badge&logo=isar&logoColor=white
+[mockito-url] : https://pub.dev/packages/mockito
+[mocktio-img] : https://img.shields.io/badge/mockito-000000?style=for-the-badge&logo=mockito&logoColor=white
