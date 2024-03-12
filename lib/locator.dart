@@ -15,9 +15,6 @@ void setupLocator() {
   locator.registerSingleton<IConnectivityService>(ConnectivityService());
   locator.registerSingleton<IFirestoreGreatMoviesRepository>(FireStoreGreatMovieRepository());
   locator.registerSingleton<ILocalGreatMoviesRepository>(LocalGreatMoviesRepository());
-  locator.registerSingletonWithDependencies<IGreatMoviesProvider>(
-      () => GreatMoviesProvider(connectivityService: locator(), localGreatMoviesRepository: locator(), firestoreGreatMoviesRepository: locator()),
-      dependsOn: [ConnectivityService, LocalGreatMoviesRepository, FireStoreGreatMovieRepository],
-  );
+  locator.registerSingleton<IGreatMoviesProvider>(GreatMoviesProvider(connectivityService: locator(), localGreatMoviesRepository: locator(), firestoreGreatMoviesRepository: locator()));
   locator.registerSingleton<ITmdbRepository>(TmdbRepository());
 }

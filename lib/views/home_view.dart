@@ -16,7 +16,9 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 4,
-        child: Scaffold(
+        child: Directionality(
+         textDirection: TextDirection.ltr,
+            child: Scaffold(
           appBar: AppBar(
             titleTextStyle:
             const TextStyle(color: Colors.yellowAccent, fontSize: 24),
@@ -37,6 +39,7 @@ class HomeView extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: IconButton(
+                    key: const Key('searchButton'),
                     onPressed: () {
                       // method to show the search bar
                       showSearch(
@@ -49,6 +52,7 @@ class HomeView extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(right: 25),
                   child: IconButton(
+                    key: const Key('profileButton'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -88,6 +92,6 @@ class HomeView extends StatelessWidget {
                 VolumeMovieList(volume: 3),
                 VolumeMovieList(volume: 4)
               ])),
-        ));
+        )));
   }
 }
