@@ -48,7 +48,7 @@ void main() {
         // Verify the title
         expect(find.text('Grekino'), findsOneWidget);
 
-        // Click the profile button.
+        // Click the search button and go back.
         homeRobot = HomeRobot(tester);
         await homeRobot.clickSearchButton();
       });

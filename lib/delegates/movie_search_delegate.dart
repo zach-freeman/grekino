@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
-import 'package:grekino/repositories/i_local_great_movies_repository.dart';
-
+import 'package:grekino/providers/i_great_movies_provider.dart';
 import '../locator.dart';
 import '../models/great_movie_model.dart';
-import '../repositories/i_firestore_great_movies_repository.dart';
 import '../views/movie_list_item.dart';
 
 class MovieSearchDelegate extends SearchDelegate {
@@ -31,6 +29,7 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
+      key: const Key('backButton'),
       icon: const Icon(Icons.arrow_back),
       onPressed: () => Navigator.of(context).pop(),
       // Exit from the search screen.
@@ -90,15 +89,13 @@ class MovieSearchDelegate extends SearchDelegate {
   }
 
   Future<GreatMovieModel?> getMovie(String imdbId) {
-    IFirestoreGreatMoviesRepository fsGreatMoviesRepo =
-    locator<IFirestoreGreatMoviesRepository>();
-    return fsGreatMoviesRepo.getMovieForImdbId(imdbId);
+    IGreatMoviesProvider greatMoviesProvider = locator<IGreatMoviesProvider>();
+    return greatMoviesProvider.getMovieForImdbId(imdbId);
   }
 
   Future<List<GreatMovieModel>> searchChanged(String query) async {
-    ILocalGreatMoviesRepository greatMoviesRepository =
-        locator<ILocalGreatMoviesRepository>();
-    return await greatMoviesRepository.searchMovies(query);
+    IGreatMoviesProvider greatMoviesProvider = locator<IGreatMoviesProvider>();
+    return await greatMoviesProvider.searchMovies(query);
   }
 
   @override

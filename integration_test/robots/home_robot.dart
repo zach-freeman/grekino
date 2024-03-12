@@ -21,5 +21,9 @@ class HomeRobot {
     await tester.tap(searchButtonFinder);
 
     await tester.pumpAndSettle();
+    final backButtonFinder = find.byKey(const Key('backButton'));
+    await tester.ensureVisible(backButtonFinder);
+    await tester.tap(backButtonFinder);
+    await tester.pumpAndSettle();
   }
 }
